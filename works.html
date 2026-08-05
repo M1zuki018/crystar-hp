@@ -17,32 +17,32 @@
      has-worknav … 作品タブの分だけ本文を下げるためのクラス -->
 <body data-page="works" data-script="works-home" class="has-worknav">
 
-<a class="skip-link" href="#main">本文へスキップ</a>
+  <a class="skip-link" href="#main">本文へスキップ</a>
 
-<page-bg data-code="home"></page-bg>
+  <page-bg data-code="home"></page-bg>
 
-<site-header></site-header>
-<work-nav data-current="home"></work-nav>
+  <site-header></site-header>
+  <work-nav data-current="home"></work-nav>
 
-<main class="page" id="main">
+  <main class="page" id="main">
 
-  <header class="page-head wrap">
-    <p class="eyebrow">Works</p>
-    <h1 class="page-head__title">
-      作品
-      <span class="page-head__ja">Works</span>
-    </h1>
-  </header>
+    <header class="page-head wrap">
+      <p class="eyebrow">Works</p>
+      <h1 class="page-head__title">
+        作品
+        <span class="page-head__ja">Works</span>
+      </h1>
+    </header>
 
-  <!-- 一覧は works.config.js の WORKS から自動生成される -->
-  <div class="blur-panel">
-    <div class="works-list wrap" data-works-list></div>
-  </div>
+    <!-- 一覧は works.config.js の WORKS から自動生成される -->
+    <div class="blur-panel">
+      <div class="works-list wrap" data-works-list></div>
+    </div>
 
-</main>
+  </main>
 
-<site-footer></site-footer>
+  <site-footer></site-footer>
 
-<script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

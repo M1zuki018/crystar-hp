@@ -61,3 +61,15 @@ python3 -m http.server 8000
 
 HTMLの新規作成は不要です。作品詳細は `work.html?code=(code)` が共通テンプレートとして処理します。
 セクション構成（STORY / WORLD / CHARACTER）を作品ごとに変える場合は、`WORKS` のその作品に `sections` を書けば上書きされます。
+
+## ギャラリー画像の追加
+
+1. `Resources/gallery/` に `(作品コード)_xxx.png` の名前で置く
+2. 一覧を生成し直す
+
+```bash
+node tools/build-gallery.mjs
+```
+
+`assets/data/gallery.js`（生成物）が更新され、タブの分類と表示順に反映されます。
+画像の縦横もスクリプトが読み取って埋め込むので、読み込み時のガタつきは起きません。

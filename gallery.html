@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gallery — CryStar</title>
-  <meta name="description" content="CryStarのイラスト・ビジュアル作品のギャラリー。">
+  <title>Gallery — CryStar Studio</title>
+  <meta name="description" content="CryStar Studioのイラスト・ビジュアル作品のギャラリー。">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,43 +12,36 @@
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
-<body data-page="gallery">
+<body data-page="gallery" data-script="gallery">
 
-  <a class="skip-link" href="#main">本文へスキップ</a>
+<a class="skip-link" href="#main">本文へスキップ</a>
 
-  <div class="starfield" aria-hidden="true">
-    <div class="starfield__layer starfield__layer--1"></div>
-    <div class="starfield__layer starfield__layer--2"></div>
-    <div class="starfield__layer starfield__layer--3"></div>
+<page-bg data-src="Resources/common/gallery/gallery_bg.png"></page-bg>
+
+<site-header></site-header>
+
+<main class="page" id="main">
+
+  <header class="page-head wrap">
+    <p class="eyebrow">Gallery</p>
+    <h1 class="page-head__title">
+      ギャラリー
+      <span class="page-head__ja">Gallery</span>
+    </h1>
+  </header>
+
+  <!-- 一覧は assets/data/gallery.js（自動生成）から作られる -->
+  <div class="blur-panel">
+    <div class="wrap gallery-page">
+      <div class="gallery-tabs" data-gallery-tabs></div>
+      <div class="gallery" data-gallery></div>
+    </div>
   </div>
 
-  <site-header></site-header>
+</main>
 
-  <main class="page" id="main">
+<site-footer></site-footer>
 
-    <header class="page-head wrap">
-      <p class="eyebrow">03 / Gallery</p>
-      <h1 class="page-head__title">
-        Gallery
-        <span class="page-head__ja">ギャラリー</span>
-      </h1>
-      <p class="page-head__lead">
-        イラストとビジュアル制作の記録です。
-      </p>
-    </header>
-
-    <!-- TODO: 手順3以降でグリッド表示とライトボックスを実装する -->
-    <section class="section wrap">
-      <div class="placeholder">
-        <span class="placeholder__label">Work in progress</span>
-        画像グリッドをここに配置する
-      </div>
-    </section>
-
-  </main>
-
-  <site-footer></site-footer>
-
-  <script type="module" src="assets/js/main.js"></script>
+<script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

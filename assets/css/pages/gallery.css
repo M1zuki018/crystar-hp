@@ -1,0 +1,52 @@
+/* ギャラリーページ */
+
+.gallery-page {
+  padding-block: var(--s-5) var(--s-7);
+}
+
+/**
+ * 画像は縦横比がまちまちなので、段組み（multi-column）で流し込む。
+ * columns の「3 260px」は「最大3列。ただし1列が260pxを下回るなら列を減らす」の意味で、
+ * これだけで幅に応じて 3列 → 2列 → 1列 に落ちる（メディアクエリ不要）。
+ */
+.gallery {
+  columns: 3 260px;
+  column-gap: var(--s-3);
+}
+
+.gallery__item {
+  display: block;
+  width: 100%;
+  margin-bottom: var(--s-3);
+  /* 段の途中で画像が分断されないようにする */
+  break-inside: avoid;
+  border: 1px solid var(--c-line);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.gallery__item img {
+  width: 100%;
+  height: auto;
+  /* width/height 属性から縦横比が決まるので、読み込み前でも場所が確保される */
+  transition: transform 0.6s var(--ease), filter 0.6s var(--ease);
+}
+
+.gallery__item:hover {
+  border-color: rgb(198 166 234 / 0.6);
+}
+
+.gallery__item:hover img {
+  transform: scale(1.03);
+  filter: saturate(1.1);
+}
+
+/* 絞り込みで隠した項目は段組みからも外す */
+.gallery__item[hidden] {
+  display: none;
+}
+
+/* タブとギャラリーの間隔 */
+.gallery-tabs {
+  margin-bottom: var(--s-4);
+}

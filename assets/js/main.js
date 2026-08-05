@@ -19,6 +19,7 @@ const PAGE_SCRIPTS = {
   'works-home': () => import('./pages/works-home.js'),
   'work-detail': () => import('./pages/work-detail.js'),
   characters: () => import('./pages/characters.js'),
+  gallery: () => import('./pages/gallery.js'),
 };
 
 PAGE_SCRIPTS[document.body.dataset.script]?.();
