@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Works — CryStar Studio</title>
-  <meta name="description" content="CryStar Studioの作品紹介。">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Works — CryStar Studio</title>
+    <meta name="description" content="CryStar Studioの作品紹介。">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
 <!-- 全作品で共通のテンプレート。表示する作品は URL の ?code= で決まる。
      作品を増やしてもこのファイルを複製する必要はない。 -->
 <body data-page="works" data-script="work-detail" class="has-worknav">
 
-  <a class="skip-link" href="#main">本文へスキップ</a>
+<a class="skip-link" href="#main">本文へスキップ</a>
 
-  <!-- data-code は work-detail.js が URL から判定して設定する -->
-  <page-bg></page-bg>
+<!-- data-code は work-detail.js が URL から判定して設定する -->
+<page-bg></page-bg>
 
-  <site-header></site-header>
-  <work-nav></work-nav>
+<site-header></site-header>
+<work-nav></work-nav>
 
-  <main class="page" id="main">
+<main class="page" id="main">
+    <!-- 見出しまでは背景アートをそのまま見せる -->
     <header class="work-hero wrap" data-work-hero></header>
-    <div class="wrap" data-work-sections></div>
-  </main>
 
-  <site-footer></site-footer>
+    <!-- 本文はブラー面の中に置いて可読性を確保する -->
+    <div class="blur-panel">
+        <div class="wrap" data-work-sections></div>
+    </div>
+</main>
 
-  <script type="module" src="assets/js/main.js"></script>
+<site-footer></site-footer>
+
+<script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

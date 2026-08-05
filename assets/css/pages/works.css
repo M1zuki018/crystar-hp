@@ -10,6 +10,11 @@
   padding-block: var(--s-6) var(--s-7);
 }
 
+/* 一覧ページは見出しのあとすぐ本文なので、面の始まりに余白を足す */
+.blur-panel > .works-list {
+  padding-top: var(--s-6);
+}
+
 .work-row {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -98,9 +103,9 @@
   width: 100%;
   height: 100%;
   background-image: repeating-linear-gradient(
-    135deg,
-    transparent 0 10px,
-    rgb(38 46 77 / 0.6) 10px 11px
+          135deg,
+          transparent 0 10px,
+          rgb(38 46 77 / 0.6) 10px 11px
   );
 }
 
@@ -129,9 +134,16 @@
 }
 
 /* ================================================
-   作品詳細ページ（中身は次の手順で実装）
+   作品詳細ページ
    ================================================ */
+
+/* 見出しの領域。ここだけ背景アートをぼかさずに見せるので、
+   高さを確保して作品ビジュアルの見せ場にしている */
 .work-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 58svh;
   padding-block: var(--s-6) var(--s-5);
 }
 
@@ -161,6 +173,11 @@
   margin-bottom: var(--s-3);
 }
 
+/* ブラー面の中では、いちばん上のセクションの罫線が面の縁と重なるので消す */
+.blur-panel .work-section:first-child {
+  border-top: none;
+}
+
 /* ---- ブロック内の本文 ---- */
 .block-text {
   max-width: 46em;
@@ -185,7 +202,7 @@
   background-color: rgb(12 17 34 / 0.6);
   border: 1px solid var(--c-line);
   transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease),
-    letter-spacing 0.3s var(--ease);
+  letter-spacing 0.3s var(--ease);
 }
 
 .go-button::after {
