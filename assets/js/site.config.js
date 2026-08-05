@@ -27,10 +27,9 @@ export const NAV = [
 
 /**
  * SNSリンク。トップページ右上とフッターの両方がこの配列を参照する。
- * href を実際のURLに差し替えて使う。
  */
 export const SOCIAL = [
-  { label: 'X', href: '#' },
-  { label: 'YouTube', href: '#' },
-  { label: 'TikTok', href: '#' },
+  { label: 'X', href: 'https://x.com/kuon0108_' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@-kuon-4525' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@kuon0108_' },
 ];
