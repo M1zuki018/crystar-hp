@@ -11,7 +11,7 @@
   inset: 0;
   z-index: -1;
   background-color: var(--c-void); /* 画像読み込み前の下地 */
-  background-image: url('../../Resources/common/top/top_bg.png');
+  background-image: url('../../../Resources/common/top/top_bg.png');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
