@@ -1,5 +1,12 @@
 /* 作品タブ（ヘッダーの2段目） */
 
+/* 作品タブがあるページは、固定ヘッダー全体の高さが2段分になる。
+   本文の上余白とハッシュ移動の位置はこの変数を見ている */
+.has-worknav {
+  --header-stack-h: calc(var(--header-h) + var(--worknav-h));
+}
+
+/* 背景と罫線の指定は header.css 側にまとめてある（ヘッダーと挙動を揃えるため） */
 .work-nav {
   position: fixed;
   top: var(--header-h);
@@ -7,9 +14,6 @@
   z-index: 45;
   width: 100%;
   height: var(--worknav-h);
-  background-color: rgb(5 7 15 / 0.72);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--c-line);
 }
 
 .work-nav__list {
@@ -108,21 +112,11 @@
   color: var(--c-mute);
   border-left: 2px solid transparent;
   transition: color 0.2s var(--ease), border-color 0.2s var(--ease),
-    background-color 0.2s var(--ease);
+  background-color 0.2s var(--ease);
 }
 
 .work-nav__drop-link:hover {
   color: var(--c-paper);
   border-left-color: var(--c-crys);
   background-color: rgb(20 26 49 / 0.8);
-}
-
-/* ---- 作品タブがあるページは、その分だけ本文を下げる ---- */
-.has-worknav .page {
-  padding-top: calc(var(--header-h) + var(--worknav-h));
-}
-
-/* セクションへジャンプしたとき、ヘッダーの下に隠れないようにする */
-.has-worknav [id] {
-  scroll-margin-top: calc(var(--header-h) + var(--worknav-h) + var(--s-3));
 }

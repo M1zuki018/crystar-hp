@@ -8,6 +8,7 @@ import './components/site-footer.js';
 import './components/social-links.js';
 import './components/page-bg.js';
 import './components/work-nav.js';
+import './components/key-visual.js';
 
 /**
  * ページ固有スクリプト。
@@ -21,9 +22,10 @@ const PAGE_SCRIPTS = {
 
 PAGE_SCRIPTS[document.body.dataset.script]?.();
 
-// スクロール量に応じてヘッダーの見た目を変える（少し下げたら背景を敷く）
+/* スクロール量に応じてヘッダーの見た目を変える。
+   .has-worknav と同じ要素に付けたいので body に付与している */
 const onScroll = () => {
-  document.documentElement.classList.toggle('is-scrolled', window.scrollY > 8);
+  document.body.classList.toggle('is-scrolled', window.scrollY > 8);
 };
 
 window.addEventListener('scroll', onScroll, { passive: true });

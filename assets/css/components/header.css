@@ -1,5 +1,58 @@
 /* 共通ヘッダー（ロゴ左詰め／ナビ右詰め） */
 
+/* ---- 固定ヘッダーの下地 ----
+   ヘッダーとタブを別々に暗くすると段差ができるので、
+   両方をまとめて覆う1枚のグラデーションを背面に敷いている。
+   これで背景画像が明るくても文字が読めて、かつ帯の切れ目が出ない。 */
+.header-scrim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  height: calc(var(--header-stack-h) + 3rem);
+  pointer-events: none;
+  background: linear-gradient(
+          180deg,
+          rgb(5 7 15 / 0.88) 0%,
+          rgb(5 7 15 / 0.55) 55%,
+          transparent 100%
+  );
+  transition: opacity 0.3s var(--ease);
+}
+
+/* スクロール後は下の面が入るので、覆いは薄くする */
+.is-scrolled .header-scrim {
+  opacity: 0.35;
+}
+
+/* ---- ヘッダーとタブは同じ面として振る舞う ---- */
+.site-header,
+.work-nav {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.is-scrolled .site-header,
+.is-scrolled .work-nav {
+  background-color: rgb(5 7 15 / 0.78);
+  backdrop-filter: blur(12px);
+}
+
+/* 下端の罫線は、重なった面のいちばん下の1本だけ出す */
+.is-scrolled .site-header {
+  border-bottom-color: var(--c-line);
+}
+
+.has-worknav.is-scrolled .site-header {
+  border-bottom-color: transparent;
+}
+
+.has-worknav.is-scrolled .work-nav {
+  border-bottom-color: var(--c-line);
+}
+
 .site-header {
   position: fixed;
   top: 0;
@@ -7,15 +60,6 @@
   z-index: 50;
   width: 100%;
   height: var(--header-h);
-  border-bottom: 1px solid transparent;
-  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
-}
-
-/* スクロールしたら背景を敷いて可読性を確保する（main.js が html に付与） */
-.is-scrolled .site-header {
-  background-color: rgb(12 17 34 / 0.72);
-  backdrop-filter: blur(12px);
-  border-bottom-color: var(--c-line);
 }
 
 .site-header__inner {

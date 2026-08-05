@@ -11,6 +11,9 @@ class SiteHeader extends HTMLElement {
     const currentPage = document.body.dataset.page ?? '';
 
     this.innerHTML = `
+      <!-- ヘッダーとタブをまとめて覆う下地。背景画像が明るくても文字が読めるようにする -->
+      <div class="header-scrim" aria-hidden="true"></div>
+
       <header class="site-header">
         <div class="site-header__inner wrap">
 

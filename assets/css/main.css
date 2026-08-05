@@ -16,6 +16,8 @@
 @import url('components/work-nav.css');
 @import url('components/footer.css');
 @import url('components/social.css');
+@import url('components/key-visual.css');
+@import url('components/character-modal.css');
 
 /* 4. ページ */
 @import url('pages/common.css');

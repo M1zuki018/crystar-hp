@@ -160,3 +160,46 @@
   color: var(--c-crys);
   margin-bottom: var(--s-3);
 }
+
+/* ---- ブロック内の本文 ---- */
+.block-text {
+  max-width: 46em;
+  color: var(--c-paper);
+}
+
+.block-text p + p {
+  margin-top: var(--s-3);
+}
+
+/* ---- GOボタン（リンクがある作品にだけ出る） ---- */
+.go-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+  padding: var(--s-3) var(--s-5);
+  font-family: var(--f-mono);
+  font-size: var(--t-small);
+  letter-spacing: 0.18em;
+  color: var(--c-paper);
+  background-color: rgb(12 17 34 / 0.6);
+  border: 1px solid var(--c-line);
+  transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease),
+    letter-spacing 0.3s var(--ease);
+}
+
+.go-button::after {
+  content: '→';
+  color: var(--c-crys);
+  transition: transform 0.3s var(--ease);
+}
+
+.go-button:hover {
+  border-color: rgb(198 166 234 / 0.6);
+  background-color: rgb(20 26 49 / 0.8);
+  letter-spacing: 0.22em;
+}
+
+.go-button:hover::after {
+  transform: translateX(4px);
+}

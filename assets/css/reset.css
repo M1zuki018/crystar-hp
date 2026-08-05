@@ -15,8 +15,9 @@ h1, h2, h3, h4, p, figure, blockquote, dl, dd {
   margin: 0;
 }
 
-ul[class],
-ol[class] {
+/* :where() で囲むと詳細度が0になるので、
+   あとから .wrap などで padding を足しても打ち消されない */
+:where(ul[class], ol[class]) {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -55,7 +56,8 @@ site-header,
 site-footer,
 social-links,
 work-nav,
-page-bg {
+page-bg,
+key-visual {
   display: block;
 }
 

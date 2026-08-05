@@ -1,0 +1,215 @@
+/**
+ * キャラクター詳細ポップアップ。
+ * --char-color にキャラクターのイメージカラーが入る（JSが設定）。
+ * そのまま使うと明るすぎるので、色を背景色と混ぜて沈ませたものを
+ * --char-tint / --char-line / --char-text として使い回している。
+ */
+
+.char-modal {
+  --char-color: var(--c-crys);
+  --char-tint: color-mix(in srgb, var(--char-color) 16%, var(--c-void));
+  --char-line: color-mix(in srgb, var(--char-color) 40%, var(--c-line));
+  --char-text: color-mix(in srgb, var(--char-color) 55%, var(--c-paper));
+
+  width: min(92vw, 980px);
+  max-width: none;
+  max-height: 88vh;
+  padding: 0;
+  overflow: hidden;
+  color: var(--c-paper);
+  background-color: var(--char-tint);
+  border: 1px solid var(--char-line);
+  box-shadow: 0 0 80px color-mix(in srgb, var(--char-color) 25%, transparent);
+}
+
+.char-modal::backdrop {
+  background-color: rgb(5 7 15 / 0.86);
+  backdrop-filter: blur(6px);
+}
+
+.char-modal__close {
+  position: absolute;
+  top: var(--s-2);
+  right: var(--s-3);
+  z-index: 2;
+  font-family: var(--f-mono);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--char-text);
+  transition: color 0.2s var(--ease);
+}
+
+.char-modal__close:hover {
+  color: var(--c-paper);
+}
+
+.char-modal__body {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+/* ---- 左カラム：立ち絵とセリフ ---- */
+.char-modal__visual {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 320px;
+  /* イメージカラーの薄い光を下から当てる */
+  background:
+    radial-gradient(80% 60% at 50% 100%, color-mix(in srgb, var(--char-color) 30%, transparent), transparent 70%),
+    var(--c-void);
+}
+
+.char-modal__stand {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+}
+
+/* セリフは立ち絵に被せる */
+.char-modal__quote {
+  position: absolute;
+  left: var(--s-3);
+  right: var(--s-3);
+  bottom: var(--s-4);
+  font-size: var(--t-small);
+  line-height: 1.9;
+  letter-spacing: 0.06em;
+  color: var(--c-paper);
+  text-shadow: 0 2px 12px rgb(5 7 15 / 0.9);
+}
+
+.char-modal__quote::before {
+  content: '「';
+}
+
+.char-modal__quote::after {
+  content: '」';
+}
+
+/* ---- 右カラム：名前とプロフィール ---- */
+.char-modal__info {
+  padding: var(--s-5) var(--s-4);
+}
+
+.char-modal__alphabet {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--char-text);
+}
+
+.char-modal__name {
+  margin-top: var(--s-2);
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.char-modal__real {
+  margin-top: var(--s-1);
+  font-size: var(--t-small);
+  letter-spacing: 0.14em;
+  color: var(--c-mute);
+}
+
+/* ---- プロフィール表 ---- */
+.char-spec {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-2) var(--s-4);
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--char-line);
+}
+
+.char-spec__row {
+  display: flex;
+  gap: var(--s-3);
+  align-items: baseline;
+  font-size: var(--t-small);
+}
+
+.char-spec__key {
+  flex: 0 0 4.5em;
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.12em;
+  color: var(--char-text);
+}
+
+.char-spec__value {
+  margin: 0;
+}
+
+.char-modal__intro {
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--char-line);
+  font-size: var(--t-small);
+  line-height: 2;
+  color: var(--c-paper);
+}
+
+@media (max-width: 720px) {
+  .char-modal__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .char-modal__visual {
+    min-height: 260px;
+  }
+
+  .char-spec {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ================================================
+   キャラクターアイコンの並び（WORLDブロックなどで使用）
+   ================================================ */
+.char-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+}
+
+.char-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-2);
+  width: 88px;
+}
+
+.char-icon img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.char-icon:hover img {
+  border-color: var(--c-crys);
+  transform: translateY(-3px);
+}
+
+.char-icon__name {
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: var(--c-mute);
+  transition: color 0.3s var(--ease);
+}
+
+.char-icon:hover .char-icon__name {
+  color: var(--c-paper);
+}

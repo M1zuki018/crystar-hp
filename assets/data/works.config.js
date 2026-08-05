@@ -7,6 +7,9 @@
  * HTMLの新規作成は不要（work.html?code=(code) が共通テンプレートとして動く）。
  */
 
+/** キービジュアルの自動切り替え間隔（ミリ秒）。サイト全体で共通 */
+export const VISUAL_INTERVAL = 6000;
+
 /** 作品ページ内のセクション。sections を省略した作品はこれが使われる */
 export const DEFAULT_SECTIONS = [
   { id: 'story', label: 'STORY' },
