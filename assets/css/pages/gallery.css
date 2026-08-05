@@ -5,30 +5,35 @@
 }
 
 /**
- * 画像は縦横比がまちまちなので、段組み（multi-column）で流し込む。
- * columns の「3 260px」は「最大3列。ただし1列が260pxを下回るなら列を減らす」の意味で、
- * これだけで幅に応じて 3列 → 2列 → 1列 に落ちる（メディアクエリ不要）。
+ * 画像は縦横比がまちまちなので、行の高さを細かく刻んだグリッドに
+ * 「何行分を占めるか」を指定して敷き詰める（gallery.js が --span を計算）。
+ * 段組み（columns）と違い、並び順は左から右へ、行が埋まったら次の行に移る。
+ *
+ * 列数は minmax の下限で決まる：
+ *   30%   … 4列にすると120%になるので、最大3列に収まる
+ *   260px … これを下回るなら列を減らす（自動的に2列・1列になる）
  */
 .gallery {
-  columns: 3 260px;
-  column-gap: var(--s-3);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, max(260px, 30%)), 1fr));
+  grid-auto-rows: 8px; /* 行の刻み。gallery.js の計算と対になっている */
+  gap: var(--s-3);
 }
 
 .gallery__item {
+  /* --span は gallery.js が設定する。JSが動く前の暫定値として 30 を置く */
+  grid-row: span var(--span, 30);
   display: block;
   width: 100%;
-  margin-bottom: var(--s-3);
-  /* 段の途中で画像が分断されないようにする */
-  break-inside: avoid;
   border: 1px solid var(--c-line);
   overflow: hidden;
-  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+  transition: border-color 0.3s var(--ease);
 }
 
 .gallery__item img {
   width: 100%;
-  height: auto;
-  /* width/height 属性から縦横比が決まるので、読み込み前でも場所が確保される */
+  height: 100%;
+  object-fit: cover;
   transition: transform 0.6s var(--ease), filter 0.6s var(--ease);
 }
 
@@ -41,7 +46,7 @@
   filter: saturate(1.1);
 }
 
-/* 絞り込みで隠した項目は段組みからも外す */
+/* 絞り込みで隠した項目はグリッドからも外す */
 .gallery__item[hidden] {
   display: none;
 }
