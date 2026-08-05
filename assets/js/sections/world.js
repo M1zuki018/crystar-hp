@@ -45,10 +45,10 @@ export function renderWorld({ data, resolve, characters }) {
 }
 
 /**
- * アイコンの押下をまとめて拾う。
+ * アイコンの押下を拾う。
  * 個々のボタンに登録せず親で受けているので、あとから増えても動く。
  */
-export function bindCharacterIcons(root) {
+export function bindWorld(root) {
   root.addEventListener('click', (event) => {
     const button = event.target.closest('[data-character]');
     if (button) openCharacter(button.dataset.character);

@@ -1,6 +1,5 @@
 import { findWork, sectionsOf, resourceOf } from '../../data/works.config.js';
-import { SECTION_RENDERERS } from '../sections/index.js';
-import { bindCharacterIcons } from '../sections/world.js';
+import { SECTION_RENDERERS, SECTION_BINDERS } from '../sections/index.js';
 import { registerCharacters } from '../components/character-modal.js';
 
 /**
@@ -73,10 +72,18 @@ function renderSections(work, data) {
   // 画像ファイル名を Resources/(code)/(code)_(name).png に変換する
   const resolve = (name) => resourceOf(work.code, name);
 
-  mount.innerHTML = sectionsOf(work)
+  const sections = sectionsOf(work);
+
+  // CHARACTERブロックは陣営タブを使うので、作品データの characterGroups を渡す
+  const dataOf = (id) =>
+    id === 'character'
+      ? { groups: data.characterGroups ?? [] }
+      : data[id];
+
+  mount.innerHTML = sections
     .map((section) => {
       const render = SECTION_RENDERERS[section.id];
-      const sectionData = data[section.id];
+      const sectionData = dataOf(section.id);
 
       const body =
         render && sectionData
@@ -95,7 +102,12 @@ function renderSections(work, data) {
     })
     .join('');
 
-  bindCharacterIcons(mount);
+  // 描画後に操作を登録する（対象のブロックだけ）
+  sections.forEach((section) => {
+    const bind = SECTION_BINDERS[section.id];
+    const element = mount.querySelector(`#${section.id}`);
+    if (bind && element) bind(element, { characters: resolved, work });
+  });
 }
 
 /** 画像の指定が無ければ char_(id)_(種別) を既定名として使う */

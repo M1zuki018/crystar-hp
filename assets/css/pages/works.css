@@ -103,9 +103,9 @@
   width: 100%;
   height: 100%;
   background-image: repeating-linear-gradient(
-          135deg,
-          transparent 0 10px,
-          rgb(38 46 77 / 0.6) 10px 11px
+    135deg,
+    transparent 0 10px,
+    rgb(38 46 77 / 0.6) 10px 11px
   );
 }
 
@@ -202,7 +202,7 @@
   background-color: rgb(12 17 34 / 0.6);
   border: 1px solid var(--c-line);
   transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease),
-  letter-spacing 0.3s var(--ease);
+    letter-spacing 0.3s var(--ease);
 }
 
 .go-button::after {

@@ -13,10 +13,10 @@
   height: calc(var(--header-stack-h) + 3rem);
   pointer-events: none;
   background: linear-gradient(
-          180deg,
-          rgb(5 7 15 / 0.88) 0%,
-          rgb(5 7 15 / 0.55) 55%,
-          transparent 100%
+    180deg,
+    rgb(5 7 15 / 0.88) 0%,
+    rgb(5 7 15 / 0.55) 55%,
+    transparent 100%
   );
   transition: opacity 0.3s var(--ease);
 }

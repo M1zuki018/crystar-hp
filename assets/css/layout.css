@@ -41,8 +41,8 @@ body {
   z-index: -1;
   pointer-events: none;
   background:
-          radial-gradient(120% 80% at 50% 0%, #1b2242 0%, transparent 60%),
-          linear-gradient(180deg, var(--c-ink) 0%, var(--c-void) 100%);
+    radial-gradient(120% 80% at 50% 0%, #1b2242 0%, transparent 60%),
+    linear-gradient(180deg, var(--c-ink) 0%, var(--c-void) 100%);
 }
 
 .starfield__layer {
@@ -56,9 +56,9 @@ body {
 /* 手前の層：粒が大きく、動きも速い */
 .starfield__layer--1 {
   background-image:
-          radial-gradient(1.6px 1.6px at 20% 30%, var(--c-paper), transparent),
-          radial-gradient(1.4px 1.4px at 70% 60%, var(--c-crys), transparent),
-          radial-gradient(1.6px 1.6px at 45% 85%, var(--c-paper), transparent);
+    radial-gradient(1.6px 1.6px at 20% 30%, var(--c-paper), transparent),
+    radial-gradient(1.4px 1.4px at 70% 60%, var(--c-crys), transparent),
+    radial-gradient(1.6px 1.6px at 45% 85%, var(--c-paper), transparent);
   background-size: 420px 420px;
   animation-duration: 90s;
 }
@@ -66,9 +66,9 @@ body {
 /* 中間の層 */
 .starfield__layer--2 {
   background-image:
-          radial-gradient(1.2px 1.2px at 15% 65%, var(--c-halo), transparent),
-          radial-gradient(1px 1px at 85% 25%, var(--c-paper), transparent),
-          radial-gradient(1.2px 1.2px at 55% 45%, var(--c-paper), transparent);
+    radial-gradient(1.2px 1.2px at 15% 65%, var(--c-halo), transparent),
+    radial-gradient(1px 1px at 85% 25%, var(--c-paper), transparent),
+    radial-gradient(1.2px 1.2px at 55% 45%, var(--c-paper), transparent);
   background-size: 300px 300px;
   opacity: 0.45;
   animation-duration: 150s;
@@ -77,8 +77,8 @@ body {
 /* 奥の層：細かく、ほとんど動かない */
 .starfield__layer--3 {
   background-image:
-          radial-gradient(0.8px 0.8px at 30% 20%, var(--c-mute), transparent),
-          radial-gradient(0.8px 0.8px at 75% 75%, var(--c-mute), transparent);
+    radial-gradient(0.8px 0.8px at 30% 20%, var(--c-mute), transparent),
+    radial-gradient(0.8px 0.8px at 75% 75%, var(--c-mute), transparent);
   background-size: 180px 180px;
   opacity: 0.35;
   animation-duration: 220s;
