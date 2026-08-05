@@ -68,7 +68,7 @@ HTMLの新規作成は不要です。作品詳細は `work.html?code=(code)` が
 2. 一覧を生成し直す
 
 ```bash
-node tools/build-gallery.mjs
+python3 tools/build_gallery.py
 ```
 
 `assets/data/gallery.js`（生成物）が更新され、タブの分類と表示順に反映されます。
