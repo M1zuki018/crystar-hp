@@ -6,8 +6,8 @@ import { SITE, NAV, SOCIAL } from '../site.config.js';
  * ページやリンクが増えてもこのファイルの修正は不要。
  */
 class SiteFooter extends HTMLElement {
-    connectedCallback() {
-        this.innerHTML = `
+  connectedCallback() {
+    this.innerHTML = `
       <footer class="site-footer">
         <div class="site-footer__inner wrap">
 
@@ -30,13 +30,13 @@ class SiteFooter extends HTMLElement {
           <!-- SNS（SOCIAL が空なら丸ごと出さない） -->
           ${
             SOCIAL.length
-                ? `
+              ? `
           <div class="site-footer__col">
             <p class="site-footer__heading">Follow</p>
             <social-links data-variant="stack"></social-links>
           </div>`
-                : ''
-        }
+              : ''
+          }
 
         </div>
 
@@ -45,7 +45,7 @@ class SiteFooter extends HTMLElement {
         </div>
       </footer>
     `;
-    }
+  }
 }
 
 customElements.define('site-footer', SiteFooter);

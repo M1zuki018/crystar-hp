@@ -1,0 +1,162 @@
+/* 作品HOME（一覧）と作品詳細ページ */
+
+/* ================================================
+   作品HOME：1作品1行、行ごとに左右入れ替え
+   ================================================ */
+.works-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  padding-block: var(--s-6) var(--s-7);
+}
+
+.work-row {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: var(--s-5);
+}
+
+/* 偶数行は左右を入れ替える。DOMの順序は変えず、grid-column だけ入れ替える */
+.work-row:nth-child(even) .work-row__body {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: right;
+}
+
+.work-row:nth-child(even) .work-row__visual {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* ---- 左右カラム：タイトル側 ---- */
+.work-row__code {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.24em;
+  color: var(--c-crys);
+}
+
+.work-row__title {
+  margin-top: var(--s-2);
+  font-size: clamp(1.75rem, 4.5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 24px rgb(5 7 15 / 0.6);
+}
+
+.work-row__subtitle {
+  margin-top: var(--s-3);
+  color: var(--c-mute);
+}
+
+.work-row__more {
+  margin-top: var(--s-4);
+  font-family: var(--f-mono);
+  font-size: var(--t-small);
+  letter-spacing: 0.16em;
+  color: var(--c-mute);
+  transition: color 0.3s var(--ease), letter-spacing 0.3s var(--ease);
+}
+
+.work-row:hover .work-row__more {
+  color: var(--c-crys);
+  letter-spacing: 0.22em;
+}
+
+/* ---- 左右カラム：ビジュアル側 ---- */
+.work-row__visual {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  background-color: rgb(12 17 34 / 0.5);
+  aspect-ratio: 16 / 9;
+}
+
+.work-row__visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease), filter 0.6s var(--ease);
+}
+
+.work-row:hover .work-row__visual img {
+  transform: scale(1.04);
+  filter: saturate(1.1);
+}
+
+.work-row:hover .work-row__visual {
+  border-color: rgb(198 166 234 / 0.5);
+}
+
+/* 準備中の行 */
+.work-row.is-preparation {
+  opacity: 0.45;
+}
+
+.work-row.is-preparation .work-row__blank {
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 10px,
+    rgb(38 46 77 / 0.6) 10px 11px
+  );
+}
+
+@media (max-width: 720px) {
+  /* 狭い画面ではビジュアルを上、テキストを下に積む。左右の入れ替えは行わない */
+  .work-row,
+  .work-row:nth-child(even) .work-row__body,
+  .work-row:nth-child(even) .work-row__visual {
+    grid-column: auto;
+    grid-row: auto;
+    text-align: left;
+  }
+
+  .work-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-3);
+  }
+
+  .work-row__body {
+    order: 2;
+  }
+
+  .work-row__visual {
+    order: 1;
+  }
+}
+
+/* ================================================
+   作品詳細ページ（中身は次の手順で実装）
+   ================================================ */
+.work-hero {
+  padding-block: var(--s-6) var(--s-5);
+}
+
+.work-hero__code {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.24em;
+  color: var(--c-crys);
+}
+
+.work-hero__title {
+  margin-top: var(--s-2);
+  font-size: var(--t-h1);
+  font-weight: 800;
+}
+
+.work-section {
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--c-line);
+}
+
+.work-section__label {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.24em;
+  color: var(--c-crys);
+  margin-bottom: var(--s-3);
+}

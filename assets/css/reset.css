@@ -53,7 +53,9 @@ button {
 /* カスタム要素は読み込み前に高さを持たないため、ブロック扱いにしておく */
 site-header,
 site-footer,
-social-links {
+social-links,
+work-nav,
+page-bg {
   display: block;
 }
 

@@ -1,0 +1,128 @@
+/* 作品タブ（ヘッダーの2段目） */
+
+.work-nav {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  z-index: 45;
+  width: 100%;
+  height: var(--worknav-h);
+  background-color: rgb(5 7 15 / 0.72);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.work-nav__list {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  gap: var(--s-1);
+  /* タブが増えて入りきらない場合は横スクロールで逃がす */
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+}
+
+.work-nav__list::-webkit-scrollbar {
+  display: none;
+}
+
+.work-nav__item {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ---- タブ本体 ---- */
+.work-tab {
+  display: flex;
+  align-items: center;
+  padding-inline: var(--s-3);
+  font-family: var(--f-body);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  color: var(--c-mute);
+  transition: color 0.25s var(--ease), background-color 0.25s var(--ease);
+}
+
+.work-tab:hover,
+.work-nav__item.is-open .work-tab {
+  color: var(--c-paper);
+  background-color: rgb(20 26 49 / 0.7);
+}
+
+/* 選択中の作品：下に結晶色のラインを引く */
+.work-tab.is-current {
+  color: var(--c-paper);
+}
+
+.work-tab.is-current::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c-crys), transparent);
+}
+
+/* 準備中：押せないことを見た目でも示す */
+.work-tab--disabled {
+  color: var(--c-line);
+  cursor: default;
+}
+
+/* ---- 展開部分 ---- */
+.work-nav__drop {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 100%;
+  background-color: rgb(5 7 15 / 0.94);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--c-line);
+  border-top: none;
+  /* 閉じている間はフォーカスも当たらないようにする */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), visibility 0.22s;
+}
+
+.work-nav__item.is-open .work-nav__drop {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.work-nav__drop-link {
+  display: block;
+  padding: var(--s-2) var(--s-4) var(--s-2) var(--s-3);
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+  color: var(--c-mute);
+  border-left: 2px solid transparent;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease),
+    background-color 0.2s var(--ease);
+}
+
+.work-nav__drop-link:hover {
+  color: var(--c-paper);
+  border-left-color: var(--c-crys);
+  background-color: rgb(20 26 49 / 0.8);
+}
+
+/* ---- 作品タブがあるページは、その分だけ本文を下げる ---- */
+.has-worknav .page {
+  padding-top: calc(var(--header-h) + var(--worknav-h));
+}
+
+/* セクションへジャンプしたとき、ヘッダーの下に隠れないようにする */
+.has-worknav [id] {
+  scroll-margin-top: calc(var(--header-h) + var(--worknav-h) + var(--s-3));
+}

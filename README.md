@@ -20,6 +20,8 @@ python3 -m http.server 8000
 ├── works.html          作品
 ├── characters.html     キャラクター
 ├── gallery.html        ギャラリー
+├── work.html           作品詳細の共通テンプレート（?code=xxx で切り替え）
+├── Resources/          → Resources/README.md に命名規約
 └── assets/
     ├── css/
     │   ├── main.css        @import で束ねるエントリポイント
@@ -29,9 +31,14 @@ python3 -m http.server 8000
     │   ├── components/     ヘッダー・フッターなどのパーツ
     │   └── pages/          ページ単位のスタイル
     └── js/
+    ├── data/
+    │   ├── works.config.js 作品一覧とタブ構成の定義
+    │   └── works/          作品ごとの中身（STORY/WORLD/CHARACTER）
+    └── js/
         ├── main.js         エントリポイント（各HTMLはこれだけ読む）
         ├── site.config.js  サイト名・ナビ・外部リンクの定義
-        └── components/     ヘッダー・フッターのカスタム要素
+        ├── components/     カスタム要素（ヘッダー・作品タブ・背景など）
+        └── pages/          ページ固有の処理（body の data-script で振り分け）
 ```
 
 ## ページを追加する手順
@@ -45,3 +52,12 @@ python3 -m http.server 8000
 ## 公開
 
 リポジトリの Settings → Pages で、公開ブランチのルートを指定します。すべて相対パスで参照しているため、`https://<user>.github.io/<repo>/` のようなサブディレクトリでもそのまま動きます。
+
+## 作品を追加する手順
+
+1. `assets/data/works.config.js` の `WORKS` に1件追加する
+2. `Resources/(code)/` に `(code)_bg.png` と `(code)_home.png` を置く
+3. `assets/data/works/(code).js` に中身のデータを書く
+
+HTMLの新規作成は不要です。作品詳細は `work.html?code=(code)` が共通テンプレートとして処理します。
+セクション構成（STORY / WORLD / CHARACTER）を作品ごとに変える場合は、`WORKS` のその作品に `sections` を書けば上書きされます。

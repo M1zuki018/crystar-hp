@@ -1,0 +1,31 @@
+/* 全ページ共通の固定背景 */
+
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background-color: var(--c-void); /* 画像読み込み前の下地 */
+}
+
+/* 縦横とも必ず画面を満たし、はみ出した分は中央基準でトリミングされる */
+.page-bg__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* 文字の可読性を確保する薄い覆い。強すぎると絵が沈むので上下の端だけ落とす */
+.page-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(5 7 15 / 0.6) 0%,
+    rgb(5 7 15 / 0.12) 38%,
+    rgb(5 7 15 / 0.2) 62%,
+    rgb(5 7 15 / 0.65) 100%
+  );
+}

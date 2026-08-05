@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Works — CryStar</title>
-  <meta name="description" content="CryStarが制作しているゲーム・小説作品の一覧。">
+  <title>Works — CryStar Studio</title>
+  <meta name="description" content="CryStar Studioが制作しているゲーム・小説作品の一覧。">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,38 +12,30 @@
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
-<body data-page="works">
+<!-- data-page  … ヘッダーの現在地判定（site.config.js の NAV の id）
+     data-script … このページで動かすスクリプト（main.js の PAGE_SCRIPTS のキー）
+     has-worknav … 作品タブの分だけ本文を下げるためのクラス -->
+<body data-page="works" data-script="works-home" class="has-worknav">
 
   <a class="skip-link" href="#main">本文へスキップ</a>
 
-  <div class="starfield" aria-hidden="true">
-    <div class="starfield__layer starfield__layer--1"></div>
-    <div class="starfield__layer starfield__layer--2"></div>
-    <div class="starfield__layer starfield__layer--3"></div>
-  </div>
+  <page-bg data-code="home"></page-bg>
 
   <site-header></site-header>
+  <work-nav data-current="home"></work-nav>
 
   <main class="page" id="main">
 
     <header class="page-head wrap">
-      <p class="eyebrow">01 / Works</p>
+      <p class="eyebrow">Works</p>
       <h1 class="page-head__title">
-        Works
-        <span class="page-head__ja">作品</span>
+        作品
+        <span class="page-head__ja">Works</span>
       </h1>
-      <p class="page-head__lead">
-        制作中・公開済みのゲームと小説をまとめています。
-      </p>
     </header>
 
-    <!-- TODO: 手順3以降で作品カードの一覧を実装する -->
-    <section class="section wrap">
-      <div class="placeholder">
-        <span class="placeholder__label">Work in progress</span>
-        作品一覧をここに配置する
-      </div>
-    </section>
+    <!-- 一覧は works.config.js の WORKS から自動生成される -->
+    <div class="works-list wrap" data-works-list></div>
 
   </main>
 

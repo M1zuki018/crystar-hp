@@ -54,5 +54,6 @@
   :root {
     --wrap-pad: var(--s-3);
     --header-h: 60px;
+    --worknav-h: 42px;
   }
 }

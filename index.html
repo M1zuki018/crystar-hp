@@ -18,61 +18,61 @@
 <!-- data-page の値は site.config.js の NAV の id と一致させる（現在地の判定に使う） -->
 <body data-page="top">
 
-<a class="skip-link" href="#main">本文へスキップ</a>
+  <a class="skip-link" href="#main">本文へスキップ</a>
 
-<!-- 背景：固定表示。スクロールしても動かない -->
-<div class="top-bg" aria-hidden="true"></div>
+  <!-- 背景：固定表示。スクロールしても動かない -->
+  <div class="top-bg" aria-hidden="true"></div>
 
-<site-header></site-header>
+  <site-header></site-header>
 
-<main class="page" id="main">
+  <main class="page" id="main">
 
-  <!-- ============ 1つ目の箱 ============ -->
-  <section class="top-hero wrap">
+    <!-- ============ 1つ目の箱 ============ -->
+    <section class="top-hero wrap">
 
-    <!-- SNSリンク：右上。項目は site.config.js の SOCIAL で管理 -->
-    <social-links class="top-hero__sns" data-variant="aside"></social-links>
+      <!-- SNSリンク：右上。項目は site.config.js の SOCIAL で管理 -->
+      <social-links class="top-hero__sns" data-variant="aside"></social-links>
 
-    <!-- スタジオ名：中央 -->
-    <div class="top-hero__title">
-      <h1 class="top-title">
-        <span class="top-title__word">CryStar</span>
-        <span class="top-title__word">Studio</span>
-      </h1>
-      <p class="top-hero__tagline">Creative Archive</p>
-    </div>
+      <!-- スタジオ名：中央 -->
+      <div class="top-hero__title">
+        <h1 class="top-title">
+          <span class="top-title__word">CryStar</span>
+          <span class="top-title__word">Studio</span>
+        </h1>
+        <p class="top-hero__tagline">Creative Archive</p>
+      </div>
 
-    <p class="top-hero__scroll">Scroll ↓</p>
-  </section>
+      <p class="top-hero__scroll">Scroll ↓</p>
+    </section>
 
-  <!-- ============ 2つ目の箱 ============ -->
-  <section class="top-menu wrap" aria-label="コンテンツ一覧">
-    <div class="top-menu__grid">
+    <!-- ============ 2つ目の箱 ============ -->
+    <section class="top-menu wrap" aria-label="コンテンツ一覧">
+      <div class="top-menu__grid">
 
-      <!-- 1列目 -->
-      <a class="menu-btn" href="works.html">
-        <span class="menu-btn__en">Works</span>
-        <span class="menu-btn__ja">作品</span>
-      </a>
+        <!-- 1列目 -->
+        <a class="menu-btn" href="works.html">
+          <span class="menu-btn__en">Works</span>
+          <span class="menu-btn__ja">作品</span>
+        </a>
 
-      <a class="menu-btn" href="characters.html">
-        <span class="menu-btn__en">Characters</span>
-        <span class="menu-btn__ja">キャラクター</span>
-      </a>
+        <a class="menu-btn" href="characters.html">
+          <span class="menu-btn__en">Characters</span>
+          <span class="menu-btn__ja">キャラクター</span>
+        </a>
 
-      <!-- 2列目（単独配置） -->
-      <a class="menu-btn menu-btn--solo" href="gallery.html">
-        <span class="menu-btn__en">Gallery</span>
-        <span class="menu-btn__ja">ギャラリー</span>
-      </a>
+        <!-- 2列目（単独配置） -->
+        <a class="menu-btn menu-btn--solo" href="gallery.html">
+          <span class="menu-btn__en">Gallery</span>
+          <span class="menu-btn__ja">ギャラリー</span>
+        </a>
 
-    </div>
-  </section>
+      </div>
+    </section>
 
-</main>
+  </main>
 
-<site-footer></site-footer>
+  <site-footer></site-footer>
 
-<script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>
