@@ -1,0 +1,65 @@
+/* SNSリンク（トップページ右上・フッターで共用） */
+
+.social {
+  display: flex;
+  font-family: var(--f-mono);
+  font-size: var(--t-small);
+  letter-spacing: 0.14em;
+}
+
+/* 横並び */
+.social--row {
+  gap: var(--s-4);
+}
+
+/* 縦並び・左寄せ（フッター用） */
+.social--stack {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-2);
+}
+
+/* 縦並び・右寄せ（トップページ右上用）。
+   上に短い縦罫を出して、ヘッダーのナビと視覚的に切り分ける。 */
+.social--aside {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s-3);
+}
+
+.social--aside::before {
+  content: '';
+  width: 1px;
+  height: 40px;
+  margin-bottom: var(--s-2);
+  background: linear-gradient(180deg, transparent, var(--c-crys));
+}
+
+.social__link {
+  display: inline-block;
+  color: var(--c-paper);
+  opacity: 0.7;
+  transition: opacity 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.social__link:hover {
+  opacity: 1;
+  color: var(--c-crys);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  /* 狭い画面では右上の縦並びを横並びに戻す */
+  .social--aside {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--s-4);
+  }
+
+  .social--aside::before {
+    width: 24px;
+    height: 1px;
+    margin: 0;
+    background: linear-gradient(90deg, transparent, var(--c-crys));
+  }
+}

@@ -1,0 +1,58 @@
+/**
+ * デザイントークン。
+ * 色・文字サイズ・余白はここでのみ定義し、他のCSSは var() で参照する。
+ * 配色を変えたいときはこのファイルだけ触ればサイト全体に反映される。
+ */
+
+:root {
+  /* ---- 色：背景（夜空の層） ---- */
+  --c-void: #05070f;   /* 最下層 */
+  --c-ink: #0c1122;    /* 基本の背景 */
+  --c-ink-2: #141a31;  /* 一段持ち上げた面（カードなど） */
+  --c-line: #262e4d;   /* 罫線 */
+
+  /* ---- 色：文字と光 ---- */
+  --c-paper: #e9e7f2;  /* 本文 */
+  --c-mute: #8a90ad;   /* 補助テキスト・非アクティブ */
+  --c-halo: #8fa9d9;   /* 星光の青（リンクなど） */
+  --c-crys: #c6a6ea;   /* 結晶の紫（アクセント・現在地） */
+  --c-sign: #f0c56e;   /* 琥珀（ごく少量の強調） */
+
+  /* ---- 書体 ---- */
+  --f-display: 'Syne', 'Zen Kaku Gothic New', sans-serif;      /* 見出し・ロゴ */
+  --f-body: 'Zen Kaku Gothic New', system-ui, sans-serif;      /* 本文（和文） */
+  --f-mono: 'Space Mono', ui-monospace, monospace;             /* ラベル・番号 */
+
+  /* ---- 文字サイズ（画面幅に応じて伸縮） ---- */
+  --t-hero: clamp(2.75rem, 9vw, 6rem);
+  --t-h1: clamp(2rem, 5vw, 3.25rem);
+  --t-h2: clamp(1.25rem, 3vw, 1.75rem);
+  --t-body: 1rem;
+  --t-small: 0.8125rem;
+  --t-label: 0.6875rem;
+
+  /* ---- 余白（4pxを基準にした段階） ---- */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 1rem;
+  --s-4: 1.5rem;
+  --s-5: 2.5rem;
+  --s-6: 4rem;
+  --s-7: 6rem;
+
+  /* ---- レイアウト ---- */
+  --wrap-w: 1120px;         /* コンテンツの最大幅 */
+  --wrap-pad: var(--s-4);   /* 画面端の余白 */
+  --header-h: 68px;
+
+  /* ---- その他 ---- */
+  --radius: 2px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --wrap-pad: var(--s-3);
+    --header-h: 60px;
+  }
+}

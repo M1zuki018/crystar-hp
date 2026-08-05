@@ -1,0 +1,190 @@
+/* 共通ヘッダー（ロゴ左詰め／ナビ右詰め） */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100%;
+  height: var(--header-h);
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+/* スクロールしたら背景を敷いて可読性を確保する（main.js が html に付与） */
+.is-scrolled .site-header {
+  background-color: rgb(12 17 34 / 0.72);
+  backdrop-filter: blur(12px);
+  border-bottom-color: var(--c-line);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* ← ロゴ左・ナビ右の配置はここで決まる */
+  height: 100%;
+}
+
+/* ---- ロゴ ---- */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* ロゴマーク：CryStar の結晶を菱形で表現 */
+.logo__mark {
+  width: 11px;
+  height: 11px;
+  background: linear-gradient(140deg, var(--c-crys), var(--c-halo));
+  transform: rotate(45deg);
+  transition: box-shadow 0.4s var(--ease);
+}
+
+.logo:hover .logo__mark {
+  box-shadow: 0 0 12px var(--c-crys);
+}
+
+.logo__name {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+}
+
+/* ---- ナビゲーション ---- */
+.site-nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.site-nav__link {
+  position: relative;
+  display: block;
+  padding-block: var(--s-2);
+  font-family: var(--f-mono);
+  font-size: var(--t-small);
+  letter-spacing: 0.12em;
+  color: var(--c-mute);
+  transition: color 0.25s var(--ease);
+}
+
+.site-nav__link:hover {
+  color: var(--c-paper);
+}
+
+/* 現在地：文字を明るくし、ヘッダー下端のラインをその幅だけ光らせる */
+.site-nav__link.is-current {
+  color: var(--c-paper);
+}
+
+.site-nav__link.is-current::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc((var(--header-h) - 100%) / -2);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--c-crys), transparent);
+}
+
+/* ---- モバイル用トグル（既定では非表示） ---- */
+.nav-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.nav-toggle__bar,
+.nav-toggle__bar::before,
+.nav-toggle__bar::after {
+  position: absolute;
+  left: 50%;
+  width: 20px;
+  height: 1px;
+  background: var(--c-paper);
+  transition: transform 0.3s var(--ease), opacity 0.2s var(--ease);
+}
+
+.nav-toggle__bar {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nav-toggle__bar::before,
+.nav-toggle__bar::after {
+  content: '';
+  left: 0;
+  transform: translateY(-6px);
+}
+
+.nav-toggle__bar::after {
+  transform: translateY(6px);
+}
+
+/* 開いているときは×印にする */
+.is-nav-open .nav-toggle__bar {
+  background: transparent;
+}
+
+.is-nav-open .nav-toggle__bar::before {
+  transform: rotate(45deg);
+}
+
+.is-nav-open .nav-toggle__bar::after {
+  transform: rotate(-45deg);
+}
+
+/* ---- 狭い画面：ナビを引き出しに切り替える ---- */
+@media (max-width: 640px) {
+  .nav-toggle {
+    display: block;
+    margin-right: calc(var(--s-2) * -1);
+  }
+
+  .site-nav {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    width: 100%;
+    background-color: rgb(12 17 34 / 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--c-line);
+    /* 閉じている間は高さ0にして、フォーカスも当たらないようにする */
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    transition: max-height 0.35s var(--ease), visibility 0.35s;
+  }
+
+  .is-nav-open .site-nav {
+    max-height: 70vh;
+    visibility: visible;
+  }
+
+  .site-nav__list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--s-2) var(--wrap-pad) var(--s-4);
+  }
+
+  .site-nav__link {
+    padding-block: var(--s-3);
+    font-size: var(--t-body);
+    border-bottom: 1px solid var(--c-line);
+  }
+
+  /* 縦並びでは下端のラインではなく、左に結晶マークを出す */
+  .site-nav__link.is-current::after {
+    content: '◆';
+    position: static;
+    height: auto;
+    background: none;
+    margin-left: var(--s-2);
+    font-size: 0.6em;
+    color: var(--c-crys);
+  }
+}

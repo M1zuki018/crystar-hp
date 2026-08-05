@@ -1,0 +1,63 @@
+/* 下層ページで共通して使うパーツ */
+
+/* ---- ページ見出し ---- */
+.page-head {
+  padding-block: var(--s-6) var(--s-5);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.page-head__title {
+  font-size: var(--t-h1);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  margin-top: var(--s-2);
+}
+
+/* 英字タイトルの下に添える和文 */
+.page-head__ja {
+  display: block;
+  margin-top: var(--s-2);
+  font-family: var(--f-body);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--c-mute);
+}
+
+.page-head__lead {
+  max-width: 46em;
+  margin-top: var(--s-3);
+  color: var(--c-mute);
+}
+
+/* ---- セクション ---- */
+.section {
+  padding-block: var(--s-5);
+}
+
+.section__title {
+  font-size: var(--t-h2);
+  margin-top: var(--s-2);
+  margin-bottom: var(--s-4);
+}
+
+/* ---- 中身をこれから作る領域の仮枠（実装が済んだら削除する） ---- */
+.placeholder {
+  padding: var(--s-5) var(--s-4);
+  border: 1px dashed var(--c-line);
+  border-radius: var(--radius);
+  background-color: rgb(20 26 49 / 0.4);
+  color: var(--c-mute);
+  font-size: var(--t-small);
+  text-align: center;
+}
+
+.placeholder__label {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-crys);
+  margin-bottom: var(--s-2);
+}

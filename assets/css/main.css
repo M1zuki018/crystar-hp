@@ -1,0 +1,20 @@
+/**
+ * CSSのエントリポイント。各HTMLはこの1ファイルだけを読み込む。
+ * ファイルを足すときは、ここに @import を1行追加する（読み込み順＝優先度順）。
+ */
+
+/* 1. 土台 */
+@import url('reset.css');
+@import url('tokens.css');
+
+/* 2. 全ページ共通のレイアウト */
+@import url('layout.css');
+
+/* 3. パーツ */
+@import url('components/header.css');
+@import url('components/footer.css');
+@import url('components/social.css');
+
+/* 4. ページ */
+@import url('pages/common.css');
+@import url('pages/top.css');
