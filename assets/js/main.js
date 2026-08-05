@@ -18,6 +18,7 @@ import './components/key-visual.js';
 const PAGE_SCRIPTS = {
   'works-home': () => import('./pages/works-home.js'),
   'work-detail': () => import('./pages/work-detail.js'),
+  characters: () => import('./pages/characters.js'),
 };
 
 PAGE_SCRIPTS[document.body.dataset.script]?.();

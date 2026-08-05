@@ -61,3 +61,8 @@
   color: var(--c-crys);
   margin-bottom: var(--s-2);
 }
+
+/* ---- キャラクターページ ---- */
+.char-page {
+  padding-block: var(--s-5) var(--s-7);
+}

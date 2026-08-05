@@ -43,7 +43,10 @@
   color: var(--c-paper);
 }
 
+/* ポップアップは画面内に収める必要があるので、立ち絵は少し低めにする */
 .char-modal__body {
+  --stand-h: clamp(300px, 60vh, 540px);
+
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   max-height: 88vh;
@@ -53,21 +56,10 @@
 /* ---- 左カラム：立ち絵とセリフ ---- */
 .char-modal__visual {
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  min-height: 320px;
   /* イメージカラーの薄い光を下から当てる */
   background:
     radial-gradient(80% 60% at 50% 100%, color-mix(in srgb, var(--char-color) 30%, transparent), transparent 70%),
     var(--c-void);
-}
-
-.char-modal__stand {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: bottom center;
 }
 
 /* セリフは立ち絵に被せる */
@@ -159,10 +151,6 @@
 @media (max-width: 720px) {
   .char-modal__body {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .char-modal__visual {
-    min-height: 260px;
   }
 
   .char-spec {

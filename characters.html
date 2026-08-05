@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Characters — CryStar</title>
-  <meta name="description" content="CryStarの作品に登場するキャラクターの紹介。">
+  <title>Characters — CryStar Studio</title>
+  <meta name="description" content="CryStar Studioの作品に登場するキャラクターの紹介。">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,44 +12,38 @@
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
-<body data-page="characters">
+<body data-page="characters" data-script="characters">
 
-  <a class="skip-link" href="#main">本文へスキップ</a>
+<a class="skip-link" href="#main">本文へスキップ</a>
 
-  <div class="starfield" aria-hidden="true">
-    <div class="starfield__layer starfield__layer--1"></div>
-    <div class="starfield__layer starfield__layer--2"></div>
-    <div class="starfield__layer starfield__layer--3"></div>
+<page-bg data-src="Resources/common/characters/characters_bg.png"></page-bg>
+
+<site-header></site-header>
+
+<main class="page" id="main">
+
+  <header class="page-head wrap">
+    <p class="eyebrow">Characters</p>
+    <h1 class="page-head__title">
+      キャラクター
+      <span class="page-head__ja">Characters</span>
+    </h1>
+    <p class="page-head__lead">
+      全作品の登場人物を横断して探せます。
+    </p>
+  </header>
+
+  <!-- 一覧は全作品のデータから自動生成される -->
+  <div class="blur-panel">
+    <div class="wrap char-page">
+      <div class="char-block" data-char-browser></div>
+    </div>
   </div>
 
-  <site-header></site-header>
+</main>
 
-  <main class="page" id="main">
+<site-footer></site-footer>
 
-    <header class="page-head wrap">
-      <p class="eyebrow">02 / Characters</p>
-      <h1 class="page-head__title">
-        Characters
-        <span class="page-head__ja">キャラクター</span>
-      </h1>
-      <p class="page-head__lead">
-        作品ごとの登場人物を、所属や関係とあわせて紹介します。
-      </p>
-    </header>
-
-    <!-- TODO: 手順3以降で、作品・勢力による絞り込みとキャラクター一覧を実装する。
-         人数とグループが増える前提なので、データはJSONなどに外出しして描画する想定。 -->
-    <section class="section wrap">
-      <div class="placeholder">
-        <span class="placeholder__label">Work in progress</span>
-        グループ切り替え + キャラクター一覧をここに配置する
-      </div>
-    </section>
-
-  </main>
-
-  <site-footer></site-footer>
-
-  <script type="module" src="assets/js/main.js"></script>
+<script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

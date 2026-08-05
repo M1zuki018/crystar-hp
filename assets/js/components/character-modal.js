@@ -1,3 +1,5 @@
+import { buildStand, initStands } from './stand-image.js';
+
 /**
  * キャラクター詳細ポップアップ。
  * WORLDブロックのアイコンからも、CHARACTERブロックのMOREボタンからも同じものを開く。
@@ -38,7 +40,9 @@ export function openCharacter(id) {
   // イメージカラーを変数として渡す。実際の配色は CSS 側で
   // 背景色と混ぜて落ち着かせている（character-modal.css を参照）
   el.style.setProperty('--char-color', character.color ?? 'var(--c-crys)');
-  el.querySelector('.char-modal__body').innerHTML = renderBody(character);
+  const body = el.querySelector('.char-modal__body');
+  body.innerHTML = renderBody(character);
+  initStands(body);
 
   el.showModal();
 }
@@ -76,7 +80,7 @@ function renderBody(c) {
   return `
     <!-- 左カラム：立ち絵とセリフ -->
     <div class="char-modal__visual">
-      ${c.stand ? `<img class="char-modal__stand" src="${c.stand}" alt="${c.name}の立ち絵">` : ''}
+      ${buildStand(c.stand, `${c.name}の立ち絵`)}
       ${c.quote ? `<p class="char-modal__quote">${c.quote}</p>` : ''}
     </div>
 

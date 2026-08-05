@@ -1,6 +1,7 @@
 import { findWork, sectionsOf, resourceOf } from '../../data/works.config.js';
 import { SECTION_RENDERERS, SECTION_BINDERS } from '../sections/index.js';
 import { registerCharacters } from '../components/character-modal.js';
+import { loadWorkData, resolveCharacters } from '../lib/work-data.js';
 
 /**
  * 作品詳細ページ（work.html?code=xxx）。
@@ -32,17 +33,6 @@ async function init(work) {
   scrollToHash();
 }
 
-async function loadWorkData(code) {
-  try {
-    const module = await import(`../../data/works/${code}.js`);
-    return module.default ?? {};
-  } catch {
-    // データファイルが未作成でもページ自体は壊さない
-    console.warn(`assets/data/works/${code}.js が見つかりません`);
-    return {};
-  }
-}
-
 function renderHero(work, title) {
   const hero = document.querySelector('[data-work-hero]');
   if (!hero) return;
@@ -58,14 +48,8 @@ function renderSections(work, data) {
   const mount = document.querySelector('[data-work-sections]');
   if (!mount) return;
 
-  const characters = data.characters ?? [];
-
-  // 立ち絵・アイコンのパスをここで解決しておく（以降はそのまま使える）
-  const resolved = characters.map((character) => ({
-    ...character,
-    icon: resolveCharacterImage(work.code, character, 'icon'),
-    stand: resolveCharacterImage(work.code, character, 'stand'),
-  }));
+  // 画像パスと所属情報を解決しておく（以降はそのまま使える）
+  const resolved = resolveCharacters(work, data);
 
   registerCharacters(resolved);
 
@@ -106,14 +90,8 @@ function renderSections(work, data) {
   sections.forEach((section) => {
     const bind = SECTION_BINDERS[section.id];
     const element = mount.querySelector(`#${section.id}`);
-    if (bind && element) bind(element, { characters: resolved, work });
+    if (bind && element) bind(element, { characters: resolved, work, data: dataOf(section.id) });
   });
-}
-
-/** 画像の指定が無ければ char_(id)_(種別) を既定名として使う */
-function resolveCharacterImage(code, character, kind) {
-  const name = character[kind] ?? `char_${character.id}_${kind}`;
-  return resourceOf(code, name);
 }
 
 /**
