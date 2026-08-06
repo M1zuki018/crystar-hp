@@ -75,6 +75,47 @@
   background: linear-gradient(90deg, transparent, var(--c-crys), transparent);
 }
 
+/* ---- アイコンの共通下地 ----
+   画像が無くても枠が空にならないよう、頭文字とイメージカラーを常に敷いておき、
+   その上に画像を重ねる。読み込みに失敗した画像は hidden になり、下地が見える。 */
+.char-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--char-color, var(--c-crys)) 30%, var(--c-ink-2)),
+    var(--c-ink)
+  );
+}
+
+.char-thumb::before {
+  content: attr(data-initial);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--char-color, var(--c-crys)) 55%, var(--c-paper));
+  opacity: 0.8;
+}
+
+.char-thumb img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.char-thumb--round {
+  border-radius: 50%;
+}
+
 /* ---- アイコン行 ---- */
 .char-roster {
   display: flex;
@@ -93,12 +134,6 @@
   filter: grayscale(0.6);
   transition: opacity 0.3s var(--ease), filter 0.3s var(--ease),
     border-color 0.3s var(--ease), transform 0.3s var(--ease);
-}
-
-.char-roster__item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .char-roster__item:hover {
@@ -181,6 +216,16 @@
   border-top: 1px solid color-mix(in srgb, var(--char-color) 35%, var(--c-line));
   font-size: var(--t-small);
   line-height: 2;
+}
+
+/* ---- 立ち絵が無いとき ----
+   左カラムを畳んで1カラムにし、すべて左詰めにする */
+.char-detail.is-missing {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.char-detail.is-missing .char-detail__visual {
+  display: none;
 }
 
 /* ---- MOREボタン ---- */

@@ -48,8 +48,8 @@ class WorkNav extends HTMLElement {
 
     // 準備中のタブはリンクにしない
     const tab = isPrep
-        ? `<span class="work-tab work-tab--disabled">${work.label}</span>`
-        : `<a class="work-tab${isCurrent ? ' is-current' : ''}" href="${urlOf(work)}"
+      ? `<span class="work-tab work-tab--disabled">${work.label}</span>`
+      : `<a class="work-tab${isCurrent ? ' is-current' : ''}" href="${urlOf(work)}"
             ${isCurrent ? 'aria-current="page"' : ''}>${work.label}</a>`;
 
     return `
@@ -64,14 +64,14 @@ class WorkNav extends HTMLElement {
       <div class="work-nav__drop" data-drop="${work.code}">
         <ul class="work-nav__drop-list wrap">
           ${sectionsOf(work)
-        .map(
-            (section) => `
+            .map(
+              (section) => `
             <li>
               <a class="work-nav__drop-link" href="${urlOf(work, section.id)}">${section.label}</a>
             </li>
           `
-        )
-        .join('')}
+            )
+            .join('')}
         </ul>
       </div>
     `;

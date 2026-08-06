@@ -1,5 +1,6 @@
 import { openCharacter } from './character-modal.js';
 import { searchTextOf } from '../lib/work-data.js';
+import { thumbHtml } from '../lib/image-fallback.js';
 
 /**
  * キャラクター一覧の共通部品。
@@ -32,7 +33,7 @@ export function createCharacterBrowser(root, { characters, groups = [], groupKey
     </ul>
 
     <p class="char-empty" hidden>該当するキャラクターがいません</p>
-    <div class="char-detail" data-char-detail></div>
+    <div class="char-detail" data-char-detail data-fallback></div>
   `;
 
   bind(root, list);
@@ -66,12 +67,13 @@ const renderTabs = (groups) => `
 const renderRosterItem = (c, groupKey) => `
   <li data-group="${c[groupKey] ?? ''}" data-search="${c.searchText}">
     <button class="char-roster__item" type="button" data-select="${c.id}" aria-label="${c.name}">
-      ${c.icon ? `<img src="${c.icon}" alt="" loading="lazy">` : ''}
+      ${thumbHtml(c)}
     </button>
   </li>
 `;
 
 function renderDetail(c) {
+  // 立ち絵が無い場合は data-fallback に is-missing が付き、1カラムに畳まれる
   return `
     <div class="char-detail__visual">
       ${c.stand ? `<img src="${c.stand}" alt="${c.name}の立ち絵">` : ''}
@@ -115,6 +117,7 @@ function bind(root, list) {
     });
 
     detail.hidden = false;
+    detail.classList.remove('is-missing'); // 前の選択の判定を持ち越さない
     detail.innerHTML = renderDetail(character);
     detail.style.setProperty('--char-color', character.color ?? 'var(--c-crys)');
   };

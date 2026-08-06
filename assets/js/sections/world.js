@@ -1,5 +1,6 @@
 import { buildKeyVisual } from '../components/key-visual.js';
 import { openCharacter } from '../components/character-modal.js';
+import { thumbHtml } from '../lib/image-fallback.js';
 import { toParagraphs } from './story.js';
 
 /**
@@ -31,7 +32,7 @@ export function renderWorld({ data, resolve, characters }) {
           (c) => `
         <li>
           <button class="char-icon" type="button" data-character="${c.id}">
-            ${c.icon ? `<img src="${c.icon}" alt="" loading="lazy">` : ''}
+            ${thumbHtml(c, 'char-thumb--round')}
             <span class="char-icon__name">${c.name}</span>
           </button>
         </li>

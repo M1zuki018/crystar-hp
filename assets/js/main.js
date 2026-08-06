@@ -3,6 +3,7 @@
  * 共通パーツは import、ページ固有の処理は data-script で振り分ける。
  */
 
+import './lib/image-fallback.js';
 import './components/site-header.js';
 import './components/site-footer.js';
 import './components/social-links.js';

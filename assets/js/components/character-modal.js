@@ -54,7 +54,8 @@ function ensureDialog() {
   dialog.className = 'char-modal';
   dialog.innerHTML = `
     <button class="char-modal__close" type="button" aria-label="閉じる">×</button>
-    <div class="char-modal__body"></div>
+    <!-- 立ち絵が読めなかった場合は is-missing が付き、1カラムに畳まれる -->
+    <div class="char-modal__body" data-fallback></div>
   `;
 
   dialog.querySelector('.char-modal__close').addEventListener('click', () => dialog.close());
