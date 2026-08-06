@@ -53,6 +53,7 @@ export const GALLERY = [
   { file: 'eoh_gallery038.png', w: 1920, h: 1080 },
   { file: 'eoh_gallery039.png', w: 2048, h: 1536 },
   { file: 'eoh_gallery040.png', w: 2048, h: 1536 },
+  { file: 'eoh_gallery041.png', w: 2048, h: 1536 },
   { file: 'rotl_gallery001.png', w: 900, h: 768 },
   { file: 'rotl_gallery002.png', w: 1920, h: 1080 },
   { file: 'rotl_gallery003.png', w: 1920, h: 1080 },
