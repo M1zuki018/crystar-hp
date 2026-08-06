@@ -31,23 +31,29 @@ class KeyVisual extends HTMLElement {
       <div class="kv">
         <button class="kv__main" type="button" aria-label="キービジュアルを拡大表示">
           ${this.images
-            .map(
-              (src, i) => `
-            <img class="kv__img${i === 0 ? ' is-active' : ''}" src="${src}" alt=""
-                 loading="${i === 0 ? 'eager' : 'lazy'}">
+        .map(
+            (src, i) => `
+            <span class="kv__slide${i === 0 ? ' is-active' : ''}">
+              <!-- 枠に対して絵が余る分の下地。同じ画像をぼかして敷いている
+                   （srcが同じなので追加の読み込みは発生しない） -->
+              <img class="kv__back" src="${src}" alt="" aria-hidden="true"
+                   loading="${i === 0 ? 'eager' : 'lazy'}">
+              <img class="kv__img" src="${src}" alt=""
+                   loading="${i === 0 ? 'eager' : 'lazy'}">
+            </span>
           `
-            )
-            .join('')}
+        )
+        .join('')}
         </button>
 
         ${
-          isSingle
+        isSingle
             ? ''
             : `
         <ul class="kv__thumbs">
           ${this.images
-            .map(
-              (src, i) => `
+                .map(
+                    (src, i) => `
             <li>
               <button class="kv__thumb${i === 0 ? ' is-active' : ''}" type="button"
                       data-index="${i}" aria-label="${i + 1}枚目を表示">
@@ -55,10 +61,10 @@ class KeyVisual extends HTMLElement {
               </button>
             </li>
           `
-            )
-            .join('')}
+                )
+                .join('')}
         </ul>`
-        }
+    }
       </div>
     `;
   }
@@ -86,8 +92,8 @@ class KeyVisual extends HTMLElement {
   show(n) {
     this.index = (n + this.images.length) % this.images.length;
 
-    this.querySelectorAll('.kv__img').forEach((img, i) => {
-      img.classList.toggle('is-active', i === this.index);
+    this.querySelectorAll('.kv__slide').forEach((slide, i) => {
+      slide.classList.toggle('is-active', i === this.index);
     });
     this.querySelectorAll('.kv__thumb').forEach((button, i) => {
       button.classList.toggle('is-active', i === this.index);
@@ -114,7 +120,7 @@ customElements.define('key-visual', KeyVisual);
 
 /** 画像リストを属性に載せられる文字列に変換する */
 export const buildKeyVisual = (images) =>
-  `<key-visual data-images="${encodeURIComponent(JSON.stringify(images))}"></key-visual>`;
+    `<key-visual data-images="${encodeURIComponent(JSON.stringify(images))}"></key-visual>`;
 
 const decodeImages = (raw) => {
   if (!raw) return [];
