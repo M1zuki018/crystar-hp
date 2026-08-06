@@ -4,9 +4,16 @@
   flex-shrink: 0;
   position: relative;
   margin-top: var(--s-7);
-  background-color: rgb(5 7 15 / 0.55);
-  backdrop-filter: blur(10px);
+  /* ブラー面（.blur-panel）と同じ値にして、境目で見え方が変わらないようにする */
+  background-color: rgb(5 7 15 / 0.62);
+  backdrop-filter: blur(18px);
   border-top: 1px solid var(--c-line);
+}
+
+/* ブラー面があるページでは、面とフッターを直に接させる。
+   離すと隙間から背景がそのまま覗いてしまうため */
+body:has(.blur-panel) .site-footer {
+  margin-top: 0;
 }
 
 /* 上端に一本だけ結晶色の光を通す（サイト全体のアクセントと揃える） */
