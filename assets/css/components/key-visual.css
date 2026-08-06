@@ -138,6 +138,15 @@
   animation: lightbox-backdrop-in 0.3s var(--ease);
 }
 
+/* 閉じる動き。.lightbox[open] と詳細度が同じなので、後ろに書いて上書きしている */
+.lightbox.is-closing {
+  animation: lightbox-out 0.22s var(--ease) both;
+}
+
+.lightbox.is-closing::backdrop {
+  animation: lightbox-backdrop-out 0.22s var(--ease) both;
+}
+
 @keyframes lightbox-in {
   from { opacity: 0; transform: scale(0.97); }
   to   { opacity: 1; transform: none; }
@@ -146,6 +155,16 @@
 @keyframes lightbox-backdrop-in {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+@keyframes lightbox-out {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: scale(0.985); }
+}
+
+@keyframes lightbox-backdrop-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 .lightbox__img {

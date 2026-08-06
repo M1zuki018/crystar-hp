@@ -36,6 +36,15 @@
   animation: backdrop-in 0.32s var(--ease);
 }
 
+/* 閉じる動き。.char-modal[open] と詳細度が同じなので、後ろに書いて上書きしている */
+.char-modal.is-closing {
+  animation: modal-out 0.22s var(--ease) both;
+}
+
+.char-modal.is-closing::backdrop {
+  animation: backdrop-out 0.22s var(--ease) both;
+}
+
 @keyframes modal-in {
   from { opacity: 0; transform: translateY(12px) scale(0.98); }
   to   { opacity: 1; transform: none; }
@@ -44,6 +53,16 @@
 @keyframes backdrop-in {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+@keyframes modal-out {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: translateY(8px) scale(0.985); }
+}
+
+@keyframes backdrop-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 .char-modal__close {

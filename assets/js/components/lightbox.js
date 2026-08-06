@@ -4,6 +4,8 @@
  * フォーカスを閉じ込める、といった挙動はブラウザ側が担当してくれる。
  */
 
+import { setupDialogAnimation } from '../lib/dialog-anim.js';
+
 let dialog = null;
 
 /** 初回呼び出し時にだけ <dialog> を作って body に置く */
@@ -17,11 +19,14 @@ function ensureDialog() {
     <img class="lightbox__img" src="" alt="">
   `;
 
-  dialog.querySelector('.lightbox__close').addEventListener('click', () => dialog.close());
+  // 閉じる動きを挟むため、dialog.close() ではなく close() を経由する
+  const close = setupDialogAnimation(dialog);
+
+  dialog.querySelector('.lightbox__close').addEventListener('click', close);
 
   // 画像の外側（＝dialog自身）をクリックしたら閉じる
   dialog.addEventListener('click', (event) => {
-    if (event.target === dialog) dialog.close();
+    if (event.target === dialog) close();
   });
 
   document.body.append(dialog);

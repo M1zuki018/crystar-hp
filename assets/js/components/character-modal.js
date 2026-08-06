@@ -10,6 +10,8 @@
  * CSSで畳むだけだと空の枠が残りやすいため、DOMから作り直して確実に詰める。
  */
 
+import { setupDialogAnimation } from '../lib/dialog-anim.js';
+
 /** 表示する項目と並び順。増減させたいときはこの配列を編集する */
 const PROFILE_FIELDS = [
   { key: 'affiliation', label: '所属' },
@@ -56,9 +58,12 @@ function ensureDialog() {
     <div class="char-modal__body"></div>
   `;
 
-  dialog.querySelector('.char-modal__close').addEventListener('click', () => dialog.close());
+  // 閉じる動きを挟むため、dialog.close() ではなく close() を経由する
+  const close = setupDialogAnimation(dialog);
+
+  dialog.querySelector('.char-modal__close').addEventListener('click', close);
   dialog.addEventListener('click', (event) => {
-    if (event.target === dialog) dialog.close();
+    if (event.target === dialog) close();
   });
 
   document.body.append(dialog);

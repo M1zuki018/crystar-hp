@@ -14,6 +14,13 @@ const DIR = 'Resources/gallery/';
 const OTHER = { id: 'other', label: 'その他' };
 const FALLBACK_RATIO = 4 / 3; // 縦横が読めなかった画像の暫定値
 
+/* 切り替え演出の長さ。gallery.css の keyframes と対になっている */
+const LEAVE_MS = 240; // いまの並びが散るまで
+const WAVE_MS = 420; // 斜めの波が端から端まで届くまで
+
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const mount = document.querySelector('[data-gallery]');
 const tabsMount = document.querySelector('[data-gallery-tabs]');
 
@@ -34,9 +41,13 @@ function init() {
 
   renderTabs(items);
   renderItems(items);
+  trackRatios();
   bind();
   layout();
+  enter(); // 初回の出現
 }
+
+/* ================= 描画 ================= */
 
 /** タブは「ALL＋画像が1枚以上ある作品」だけを、works.config.js の並び順で出す */
 function renderTabs(items) {
@@ -57,7 +68,7 @@ function renderTabs(items) {
   if (!tabsMount || groups.length < 2) return;
 
   tabsMount.innerHTML = `
-    <ul class="char-tabs">
+    <ul class="char-tabs" data-reveal>
       ${groups
         .map(
           (group, i) => `
@@ -76,7 +87,7 @@ function renderItems(items) {
   const known = new Set(WORKS.map((work) => work.code));
   const labelOf = (code) => WORKS.find((work) => work.code === code)?.label ?? OTHER.label;
 
-  mount.innerHTML = items
+  const cards = items
     .map((item) => {
       // 未登録のコードは「その他」に寄せる
       const group = known.has(item.code) ? item.code : OTHER.id;
@@ -91,7 +102,11 @@ function renderItems(items) {
       `;
     })
     .join('');
+
+  mount.innerHTML = cards;
 }
+
+/* ================= レイアウト ================= */
 
 /**
  * 各画像が「グリッドの何行分を占めるか」を計算して割り当てる。
@@ -102,37 +117,123 @@ function layout() {
   const styles = getComputedStyle(mount);
   const rowUnit = parseFloat(styles.gridAutoRows) || 8;
   const rowGap = parseFloat(styles.rowGap) || 0;
+  const width = mount.clientWidth;
 
-  mount.querySelectorAll('.gallery__item').forEach((item) => {
-    if (item.hidden) return;
+  // まだ幅が確定していない（非表示など）ときは計算しない
+  if (!width) return;
 
+  visibleItems().forEach((item) => {
     const ratio = Number(item.dataset.ratio) || FALLBACK_RATIO;
-    const height = item.clientWidth / ratio;
-    const span = Math.ceil((height + rowGap) / (rowUnit + rowGap));
 
+    // clientWidth はアニメーション中の変形の影響を受けないので、そのまま使える
+    const height = item.clientWidth / ratio;
+    if (!height) return;
+
+    const span = Math.ceil((height + rowGap) / (rowUnit + rowGap));
     item.style.setProperty('--span', span);
   });
 }
+
+/**
+ * 実際の画像から縦横比を取る。
+ * 生成データ（assets/data/gallery.js）の w / h は初回描画を安定させるための目安で、
+ * 最終的にはこちらが上書きする。データが古かったり縦横が欠けていても正しく並ぶ。
+ */
+function trackRatios() {
+  const commit = (item, img) => {
+    if (!img.naturalWidth) return;
+    item.dataset.ratio = img.naturalWidth / img.naturalHeight;
+  };
+
+  mount.querySelectorAll('.gallery__item img').forEach((img) => {
+    const item = img.parentElement;
+
+    // すでに読み込み済みの画像は load が発火しないので、その場で反映する
+    if (img.complete) return commit(item, img);
+
+    img.addEventListener(
+      'load',
+      () => {
+        commit(item, img);
+        layout(); // 遅れて読み込まれた分もそのつど並べ直す
+      },
+      { once: true }
+    );
+  });
+}
+
+/* 関数宣言にしている理由：
+   モジュール先頭の init() 呼び出しがこの行より前に走るため、
+   const の矢印関数だと「初期化前アクセス」で落ちる。 */
+function visibleItems() {
+  return [...mount.querySelectorAll('.gallery__item:not([hidden])')];
+}
+
+/* ================= 出現の演出 ================= */
+
+/**
+ * 表示中の各画像に、位置から求めた遅延を割り当てる。
+ * 左上から右下へ向かう斜めの波になるので、光の走る向きと動きが揃う。
+ */
+function stagger() {
+  const box = mount.getBoundingClientRect();
+
+  visibleItems().forEach((item) => {
+    if (reduced) return item.style.removeProperty('--delay');
+
+    const rect = item.getBoundingClientRect();
+    const x = (rect.left - box.left) / Math.max(box.width, 1);
+    const y = (rect.top - box.top) / Math.max(box.height, 1);
+
+    // 横方向を強めに効かせると、流れる向きがはっきりする
+    const t = x * 0.6 + y * 0.4;
+    item.style.setProperty('--delay', `${Math.round(t * WAVE_MS)}ms`);
+  });
+}
+
+/** 波を立ち上げ直す。クラスを付けたままでは再生されないので、一度外して確定させる */
+function enter() {
+  mount.classList.remove('is-ready');
+  void mount.offsetWidth;
+  stagger();
+  mount.classList.add('is-ready');
+}
+
+/**
+ * タブの切り替え。
+ * いまの並びを散らしてから、新しい並びを波状に立ち上げる。
+ */
+async function switchGroup(group) {
+  const apply = () => {
+    mount.querySelectorAll('.gallery__item').forEach((item) => {
+      item.hidden = group !== 'all' && item.dataset.group !== group;
+    });
+    layout();
+  };
+
+  if (reduced) {
+    apply();
+    return;
+  }
+
+  mount.classList.add('is-leaving');
+  await wait(LEAVE_MS);
+  mount.classList.remove('is-leaving');
+
+  apply();
+  enter();
+}
+
+/* ================= 操作 ================= */
 
 function bind() {
   // 幅が変わると1列の幅も変わるので、そのつど計算し直す
   new ResizeObserver(layout).observe(mount);
 
-  // 生成データに縦横が無い画像は、読み込めた時点で実寸から比率を取る
-  mount.querySelectorAll('.gallery__item img').forEach((img) => {
-    if (img.parentElement.dataset.ratio) return;
-
-    img.addEventListener('load', () => {
-      if (!img.naturalWidth) return;
-      img.parentElement.dataset.ratio = img.naturalWidth / img.naturalHeight;
-      layout();
-    });
-  });
-
   // タブの絞り込み
   tabsMount?.addEventListener('click', (event) => {
     const tab = event.target.closest('.char-tab');
-    if (!tab) return;
+    if (!tab || tab.classList.contains('is-active')) return; // 同じタブの連打は無視
 
     tabsMount.querySelectorAll('.char-tab').forEach((other) => {
       const on = other === tab;
@@ -140,12 +241,7 @@ function bind() {
       other.setAttribute('aria-pressed', String(on));
     });
 
-    const group = tab.dataset.group;
-    mount.querySelectorAll('.gallery__item').forEach((item) => {
-      item.hidden = group !== 'all' && item.dataset.group !== group;
-    });
-
-    layout();
+    switchGroup(tab.dataset.group);
   });
 
   // 押したら拡大表示

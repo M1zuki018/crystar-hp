@@ -21,8 +21,9 @@
 }
 
 .gallery__item {
-  /* --span は gallery.js が設定する。JSが動く前の暫定値として 30 を置く */
-  grid-row: span var(--span, 30);
+  /* --span は gallery.js が設定する。
+     JSが動く前の暫定値は、行の刻み8px＋行間16pxで約320pxになる 14 */
+  grid-row: span var(--span, 14);
   display: block;
   width: 100%;
   border: 1px solid var(--c-line);
@@ -49,4 +50,46 @@
 /* タブとギャラリーの間隔 */
 .gallery-tabs {
   margin-bottom: var(--s-4);
+}
+
+/* ================================================
+   出現と切り替えの演出
+   --delay は gallery.js が位置から計算して入れる。
+   左上から右下へ向かう斜めの波になり、光の帯と向きが揃う。
+   ================================================ */
+
+/* 立ち上がり：奥からぼけたまま浮上してくる */
+.gallery.is-ready .gallery__item:not([hidden]) {
+  animation: gallery-in 0.7s var(--ease) var(--delay, 0s) both;
+}
+
+@keyframes gallery-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.94);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* 退場：奥へ引きながら散る。is-ready より後に書いて上書きしている */
+.gallery.is-leaving .gallery__item:not([hidden]) {
+  animation: gallery-out 0.24s var(--ease) both;
+}
+
+@keyframes gallery-out {
+  from {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.96);
+    filter: blur(8px);
+  }
 }
