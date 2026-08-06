@@ -37,6 +37,12 @@ video {
   height: auto;
 }
 
+/* hidden 属性を確実に効かせる。
+   JS 側で hidden を使って出し分けている箇所があるため、ここで打ち消しておく。 */
+[hidden] {
+  display: none !important;
+}
+
 button,
 input,
 select,

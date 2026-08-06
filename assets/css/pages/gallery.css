@@ -46,11 +46,6 @@
   filter: saturate(1.1);
 }
 
-/* 絞り込みで隠した項目はグリッドからも外す */
-.gallery__item[hidden] {
-  display: none;
-}
-
 /* タブとギャラリーの間隔 */
 .gallery-tabs {
   margin-bottom: var(--s-4);
