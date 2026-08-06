@@ -4,12 +4,15 @@ import { WORKS, sectionsOf, urlOf } from '../../data/works.config.js';
  * 作品タブ（ヘッダー2段目）。<work-nav></work-nav> を置くと描画される。
  * data-current に作品コードを渡すと、そのタブが選択状態になる。
  *
- * ホバー（またはフォーカス）でセクション一覧が展開され、
- * クリックすると「その作品ページへ遷移 → 該当セクションを先頭に表示」まで行う。
- * 遷移先での位置合わせは work.html 側の scrollToSection() が担当する。
+ * タブにカーソルを乗せると、その作品のセクション（STORY / WORLD / …）が
+ * 全幅の横帯として下に展開される。クリックすると作品ページへ遷移したうえで、
+ * 選んだセクションが先頭に来る位置まで移動する。
+ *
+ * 展開部分はタブ行の外に置いている。タブ行は横スクロールさせるため
+ * overflow-x: auto を持っており、その内側に置くと展開部分まで
+ * スクロール領域に閉じ込められてしまうため。
  */
 class WorkNav extends HTMLElement {
-  // data-current があとから変わっても描き直せるようにしておく
   static observedAttributes = ['data-current'];
 
   connectedCallback() {
@@ -22,12 +25,16 @@ class WorkNav extends HTMLElement {
 
   render() {
     const current = this.dataset.current ?? '';
+    const expandable = WORKS.filter((work) => sectionsOf(work).length);
 
     this.innerHTML = `
       <nav class="work-nav" aria-label="作品メニュー">
         <ul class="work-nav__list wrap">
           ${WORKS.map((work) => this.renderTab(work, current)).join('')}
         </ul>
+
+        <!-- 展開部分。タブ行の外に置き、全幅の帯として重ねる -->
+        ${expandable.map((work) => this.renderDrop(work)).join('')}
       </nav>
     `;
 
@@ -35,75 +42,84 @@ class WorkNav extends HTMLElement {
   }
 
   renderTab(work, current) {
-    const sections = sectionsOf(work);
     const isCurrent = work.code === current;
     const isPrep = work.status === 'preparation';
+    const hasDrop = sectionsOf(work).length > 0;
 
     // 準備中のタブはリンクにしない
     const tab = isPrep
-      ? `<span class="work-tab work-tab--disabled">${work.label}</span>`
-      : `<a class="work-tab${isCurrent ? ' is-current' : ''}" href="${urlOf(work)}"
+        ? `<span class="work-tab work-tab--disabled">${work.label}</span>`
+        : `<a class="work-tab${isCurrent ? ' is-current' : ''}" href="${urlOf(work)}"
             ${isCurrent ? 'aria-current="page"' : ''}>${work.label}</a>`;
 
-    // セクションが無い作品は展開部分ごと出さない
-    const dropdown = sections.length
-      ? `
-      <div class="work-nav__drop">
-        <ul class="work-nav__drop-list">
-          ${sections
-            .map(
-              (section) => `
+    return `
+      <li class="work-nav__item${hasDrop ? ' has-drop' : ''}" data-work="${work.code}">
+        ${tab}
+      </li>
+    `;
+  }
+
+  renderDrop(work) {
+    return `
+      <div class="work-nav__drop" data-drop="${work.code}">
+        <ul class="work-nav__drop-list wrap">
+          ${sectionsOf(work)
+        .map(
+            (section) => `
             <li>
               <a class="work-nav__drop-link" href="${urlOf(work, section.id)}">${section.label}</a>
             </li>
           `
-            )
-            .join('')}
+        )
+        .join('')}
         </ul>
-      </div>`
-      : '';
-
-    return `
-      <li class="work-nav__item${sections.length ? ' has-drop' : ''}">
-        ${tab}
-        ${dropdown}
-      </li>
+      </div>
     `;
   }
 
   /**
    * 展開の制御。
    * マウスが使える環境はホバー、タッチ環境はタップで開く。
-   * キーボード操作は focusin / focusout で拾う。
+   * 閉じる判定はタブ行ではなく <nav> 全体で行うので、
+   * タブから帯へカーソルを移しても閉じない。
    */
   setupDropdowns() {
+    const nav = this.querySelector('.work-nav');
     const items = [...this.querySelectorAll('.work-nav__item.has-drop')];
+    const drops = [...this.querySelectorAll('.work-nav__drop')];
     const canHover = window.matchMedia('(hover: hover)').matches;
 
-    const open = (item) => {
-      items.forEach((other) => other.classList.toggle('is-open', other === item));
+    const open = (code) => {
+      items.forEach((item) => item.classList.toggle('is-open', item.dataset.work === code));
+      drops.forEach((drop) => drop.classList.toggle('is-open', drop.dataset.drop === code));
     };
-    const closeAll = () => items.forEach((item) => item.classList.remove('is-open'));
+    const closeAll = () => open(null);
 
     items.forEach((item) => {
       if (canHover) {
-        item.addEventListener('pointerenter', () => open(item));
-        item.addEventListener('pointerleave', () => item.classList.remove('is-open'));
+        item.addEventListener('pointerenter', () => open(item.dataset.work));
       } else {
         // タッチ環境：1回目のタップで展開、2回目で遷移
         item.querySelector('.work-tab')?.addEventListener('click', (event) => {
           if (!item.classList.contains('is-open')) {
             event.preventDefault();
-            open(item);
+            open(item.dataset.work);
           }
         });
       }
 
-      // キーボードでタブ内に入ったら開き、出たら閉じる
-      item.addEventListener('focusin', () => open(item));
-      item.addEventListener('focusout', (event) => {
-        if (!item.contains(event.relatedTarget)) item.classList.remove('is-open');
-      });
+      // キーボードでタブに入ったら開く
+      item.addEventListener('focusin', () => open(item.dataset.work));
+    });
+
+    // 帯の中にフォーカスが入っている間は開いたままにする
+    drops.forEach((drop) => {
+      drop.addEventListener('focusin', () => open(drop.dataset.drop));
+    });
+
+    nav.addEventListener('pointerleave', closeAll);
+    nav.addEventListener('focusout', (event) => {
+      if (!nav.contains(event.relatedTarget)) closeAll();
     });
 
     document.addEventListener('keydown', (event) => {
