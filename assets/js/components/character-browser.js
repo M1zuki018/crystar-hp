@@ -33,7 +33,7 @@ export function createCharacterBrowser(root, { characters, groups = [], groupKey
     </ul>
 
     <p class="char-empty" hidden>該当するキャラクターがいません</p>
-    <div class="char-detail" data-char-detail data-fallback></div>
+    <div class="char-detail" data-char-detail></div>
   `;
 
   bind(root, list);
@@ -52,15 +52,15 @@ const renderSearch = () => `
 const renderTabs = (groups) => `
   <ul class="char-tabs">
     ${groups
-      .map(
+    .map(
         (group, i) => `
       <li>
         <button class="char-tab${i === 0 ? ' is-active' : ''}" type="button"
                 data-group="${group.id}" aria-pressed="${i === 0}">${group.label}</button>
       </li>
     `
-      )
-      .join('')}
+    )
+    .join('')}
   </ul>
 `;
 
@@ -72,12 +72,20 @@ const renderRosterItem = (c, groupKey) => `
   </li>
 `;
 
-function renderDetail(c) {
-  // 立ち絵が無い場合は data-fallback に is-missing が付き、1カラムに畳まれる
+/**
+ * 紹介の中身。
+ * withStand が false のときは立ち絵のカラムを出力しないので、
+ * 空の領域が残らず、1カラムで左詰めになる。
+ */
+function renderDetail(c, withStand) {
   return `
-    <div class="char-detail__visual">
-      ${c.stand ? `<img src="${c.stand}" alt="${c.name}の立ち絵">` : ''}
-    </div>
+    ${
+      withStand
+          ? `<div class="char-detail__visual">
+             <img src="${c.stand}" alt="${c.name}の立ち絵">
+           </div>`
+          : ''
+  }
 
     <div class="char-detail__info">
       <p class="char-detail__meta">
@@ -96,6 +104,18 @@ function renderDetail(c) {
 }
 
 /* ================= 操作 ================= */
+
+/** 立ち絵が読み込めなかった時点で、立ち絵なしの形に組み直す */
+function fillDetail(detail, character, withStand) {
+  detail.classList.toggle('is-standless', !withStand);
+  detail.innerHTML = renderDetail(character, withStand);
+
+  if (!withStand) return;
+
+  detail
+      .querySelector('.char-detail__visual img')
+      ?.addEventListener('error', () => fillDetail(detail, character, false), { once: true });
+}
 
 function bind(root, list) {
   const detail = root.querySelector('[data-char-detail]');
@@ -117,9 +137,8 @@ function bind(root, list) {
     });
 
     detail.hidden = false;
-    detail.classList.remove('is-missing'); // 前の選択の判定を持ち越さない
-    detail.innerHTML = renderDetail(character);
     detail.style.setProperty('--char-color', character.color ?? 'var(--c-crys)');
+    fillDetail(detail, character, Boolean(character.stand));
   };
 
   /**
@@ -139,7 +158,7 @@ function bind(root, list) {
 
     // 表示中に選択が残っていればそのまま、消えたら先頭に切り替える
     const stillActive = visible.some((row) =>
-      row.querySelector('.char-roster__item').classList.contains('is-active')
+        row.querySelector('.char-roster__item').classList.contains('is-active')
     );
     if (!stillActive && visible.length) {
       select(visible[0].querySelector('.char-roster__item').dataset.select);

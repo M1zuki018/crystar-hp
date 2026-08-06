@@ -85,9 +85,9 @@
   height: 100%;
   overflow: hidden;
   background: linear-gradient(
-    140deg,
-    color-mix(in srgb, var(--char-color, var(--c-crys)) 30%, var(--c-ink-2)),
-    var(--c-ink)
+          140deg,
+          color-mix(in srgb, var(--char-color, var(--c-crys)) 30%, var(--c-ink-2)),
+          var(--c-ink)
   );
 }
 
@@ -133,7 +133,7 @@
   opacity: 0.45;
   filter: grayscale(0.6);
   transition: opacity 0.3s var(--ease), filter 0.3s var(--ease),
-    border-color 0.3s var(--ease), transform 0.3s var(--ease);
+  border-color 0.3s var(--ease), transform 0.3s var(--ease);
 }
 
 .char-roster__item:hover {
@@ -182,9 +182,9 @@
   position: relative;
   /* イメージカラーの光を足元から当てる */
   background: radial-gradient(
-    70% 55% at 50% 100%,
-    color-mix(in srgb, var(--char-color) 28%, transparent),
-    transparent 70%
+          70% 55% at 50% 100%,
+          color-mix(in srgb, var(--char-color) 28%, transparent),
+          transparent 70%
   );
 }
 
@@ -219,13 +219,9 @@
 }
 
 /* ---- 立ち絵が無いとき ----
-   左カラムを畳んで1カラムにし、すべて左詰めにする */
-.char-detail.is-missing {
+   立ち絵のカラムはJS側で出力されないので、1カラムにするだけでよい */
+.char-detail.is-standless {
   grid-template-columns: minmax(0, 1fr);
-}
-
-.char-detail.is-missing .char-detail__visual {
-  display: none;
 }
 
 /* ---- MOREボタン ---- */
