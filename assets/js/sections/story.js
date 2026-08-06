@@ -8,16 +8,18 @@ import { buildKeyVisual } from '../components/key-visual.js';
 export function renderStory({ data, resolve }) {
   const visuals = (data.visuals ?? []).map(resolve);
 
+  // キービジュアル → 本文 → ボタン の順に、少しずつ遅らせて出す
   return `
-    ${visuals.length ? buildKeyVisual(visuals) : ''}
+    ${visuals.length ? buildKeyVisual(visuals, 'scale') : ''}
 
-    <div class="block-text">
+    <div class="block-text" data-reveal style="--reveal-delay: 120ms">
       ${toParagraphs(data.text)}
     </div>
 
     ${
       data.link
-        ? `<a class="go-button" href="${data.link.href}" target="_blank" rel="noopener noreferrer">
+        ? `<a class="go-button" href="${data.link.href}" target="_blank" rel="noopener noreferrer"
+              data-reveal style="--reveal-delay: 220ms">
              <span class="go-button__label">${data.link.label ?? 'GO'}</span>
            </a>`
         : ''

@@ -11,6 +11,7 @@
 @import url('layout.css');
 
 /* 3. パーツ */
+@import url('components/reveal.css');
 @import url('components/page-bg.css');
 @import url('components/header.css');
 @import url('components/work-nav.css');

@@ -17,16 +17,16 @@ export function renderWorld({ data, resolve, characters }) {
     .filter(Boolean);
 
   return `
-    ${visuals.length ? buildKeyVisual(visuals) : ''}
+    ${visuals.length ? buildKeyVisual(visuals, 'scale') : ''}
 
-    <div class="block-text">
+    <div class="block-text" data-reveal style="--reveal-delay: 120ms">
       ${toParagraphs(data.text)}
     </div>
 
     ${
       related.length
         ? `
-    <ul class="char-icons">
+    <ul class="char-icons" data-reveal style="--reveal-delay: 220ms">
       ${related
         .map(
           (c) => `

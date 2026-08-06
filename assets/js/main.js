@@ -4,6 +4,7 @@
  */
 
 import './lib/image-fallback.js';
+import './lib/reveal.js';
 import './components/site-header.js';
 import './components/site-footer.js';
 import './components/social-links.js';

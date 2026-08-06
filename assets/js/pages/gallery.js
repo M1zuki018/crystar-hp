@@ -59,15 +59,15 @@ function renderTabs(items) {
   tabsMount.innerHTML = `
     <ul class="char-tabs">
       ${groups
-      .map(
+        .map(
           (group, i) => `
         <li>
           <button class="char-tab${i === 0 ? ' is-active' : ''}" type="button"
                   data-group="${group.id}" aria-pressed="${i === 0}">${group.label}</button>
         </li>
       `
-      )
-      .join('')}
+        )
+        .join('')}
     </ul>
   `;
 }
@@ -77,20 +77,20 @@ function renderItems(items) {
   const labelOf = (code) => WORKS.find((work) => work.code === code)?.label ?? OTHER.label;
 
   mount.innerHTML = items
-      .map((item) => {
-        // 未登録のコードは「その他」に寄せる
-        const group = known.has(item.code) ? item.code : OTHER.id;
-        const ratio = item.w && item.h ? item.w / item.h : '';
+    .map((item) => {
+      // 未登録のコードは「その他」に寄せる
+      const group = known.has(item.code) ? item.code : OTHER.id;
+      const ratio = item.w && item.h ? item.w / item.h : '';
 
-        return `
+      return `
         <button class="gallery__item" type="button" data-group="${group}"
                 data-src="${item.src}" ${ratio ? `data-ratio="${ratio}"` : ''}>
           <img src="${item.src}" alt="${labelOf(item.code)}のイラスト" loading="lazy"
                ${item.w ? `width="${item.w}" height="${item.h}"` : ''}>
         </button>
       `;
-      })
-      .join('');
+    })
+    .join('');
 }
 
 /**

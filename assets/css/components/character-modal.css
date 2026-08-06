@@ -22,9 +22,28 @@
   box-shadow: 0 0 80px color-mix(in srgb, var(--char-color) 25%, transparent);
 }
 
+/* 開くときの動き */
+.char-modal[open] {
+  animation: modal-in 0.32s var(--ease);
+}
+
 .char-modal::backdrop {
   background-color: rgb(5 7 15 / 0.86);
   backdrop-filter: blur(6px);
+}
+
+.char-modal[open]::backdrop {
+  animation: backdrop-in 0.32s var(--ease);
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .char-modal__close {
@@ -58,8 +77,8 @@
   position: relative;
   /* イメージカラーの薄い光を下から当てる */
   background:
-          radial-gradient(80% 60% at 50% 100%, color-mix(in srgb, var(--char-color) 30%, transparent), transparent 70%),
-          var(--c-void);
+    radial-gradient(80% 60% at 50% 100%, color-mix(in srgb, var(--char-color) 30%, transparent), transparent 70%),
+    var(--c-void);
 }
 
 /* セリフは立ち絵に被せる */

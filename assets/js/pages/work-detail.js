@@ -37,10 +37,15 @@ function renderHero(work, title) {
   const hero = document.querySelector('[data-work-hero]');
   if (!hero) return;
 
+  // 少しずつ遅らせて、上から順に出す
   hero.innerHTML = `
-    <p class="work-hero__code">${work.code.toUpperCase()}</p>
-    <h1 class="work-hero__title">${title}</h1>
-    ${work.subtitle ? `<p class="page-head__lead">${work.subtitle}</p>` : ''}
+    <p class="work-hero__code" data-reveal>${work.code.toUpperCase()}</p>
+    <h1 class="work-hero__title" data-reveal style="--reveal-delay: 100ms">${title}</h1>
+    ${
+      work.subtitle
+        ? `<p class="page-head__lead" data-reveal style="--reveal-delay: 200ms">${work.subtitle}</p>`
+        : ''
+    }
   `;
 }
 
@@ -79,7 +84,7 @@ function renderSections(work, data) {
 
       return `
         <section class="work-section" id="${section.id}">
-          <p class="work-section__label">${section.label}</p>
+          <p class="work-section__label" data-reveal="left">${section.label}</p>
           ${body}
         </section>
       `;

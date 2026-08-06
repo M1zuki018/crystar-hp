@@ -31,8 +31,8 @@ class KeyVisual extends HTMLElement {
       <div class="kv">
         <button class="kv__main" type="button" aria-label="キービジュアルを拡大表示">
           ${this.images
-        .map(
-            (src, i) => `
+            .map(
+              (src, i) => `
             <span class="kv__slide${i === 0 ? ' is-active' : ''}">
               <!-- 枠に対して絵が余る分の下地。同じ画像をぼかして敷いている
                    （srcが同じなので追加の読み込みは発生しない） -->
@@ -42,18 +42,18 @@ class KeyVisual extends HTMLElement {
                    loading="${i === 0 ? 'eager' : 'lazy'}">
             </span>
           `
-        )
-        .join('')}
+            )
+            .join('')}
         </button>
 
         ${
-        isSingle
+          isSingle
             ? ''
             : `
         <ul class="kv__thumbs">
           ${this.images
-                .map(
-                    (src, i) => `
+            .map(
+              (src, i) => `
             <li>
               <button class="kv__thumb${i === 0 ? ' is-active' : ''}" type="button"
                       data-index="${i}" aria-label="${i + 1}枚目を表示">
@@ -61,10 +61,10 @@ class KeyVisual extends HTMLElement {
               </button>
             </li>
           `
-                )
-                .join('')}
+            )
+            .join('')}
         </ul>`
-    }
+        }
       </div>
     `;
   }
@@ -118,9 +118,13 @@ customElements.define('key-visual', KeyVisual);
 
 /* ---- 生成・受け渡し用のヘルパー ---- */
 
-/** 画像リストを属性に載せられる文字列に変換する */
-export const buildKeyVisual = (images) =>
-    `<key-visual data-images="${encodeURIComponent(JSON.stringify(images))}"></key-visual>`;
+/**
+ * 画像リストを属性に載せられる文字列に変換する。
+ * reveal を渡すと、スクロール時の出現アニメーションが付く（lib/reveal.js）。
+ */
+export const buildKeyVisual = (images, reveal = '') =>
+  `<key-visual data-images="${encodeURIComponent(JSON.stringify(images))}"
+     ${reveal ? `data-reveal="${reveal}"` : ''}></key-visual>`;
 
 const decodeImages = (raw) => {
   if (!raw) return [];

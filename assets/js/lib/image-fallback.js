@@ -13,17 +13,17 @@
  * ここは「壊れた画像を見せない」ことだけを担当する。
  */
 document.addEventListener(
-    'error',
-    (event) => {
-        const img = event.target;
-        if (img instanceof HTMLImageElement) img.hidden = true;
-    },
-    true
+  'error',
+  (event) => {
+    const img = event.target;
+    if (img instanceof HTMLImageElement) img.hidden = true;
+  },
+  true
 );
 
 /** 名前から1文字取る。アイコンが無いときの代わりに表示する */
 export const initialOf = (character) =>
-    (character.alphabet || character.name || '?').trim().charAt(0).toUpperCase();
+  (character.alphabet || character.name || '?').trim().charAt(0).toUpperCase();
 
 /**
  * キャラクターのアイコン。

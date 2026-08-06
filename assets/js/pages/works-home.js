@@ -13,12 +13,16 @@ if (mount) {
   mount.innerHTML = items.map(renderRow).join('');
 }
 
-function renderRow(work) {
+function renderRow(work, index) {
   const isPrep = work.status === 'preparation';
   const title = work.title ?? work.label;
 
+  // 行ごとに左右が入れ替わるので、出てくる向きもそれに合わせる
+  const dir =
+    index % 2 === 0 ? { body: 'left', visual: 'right' } : { body: 'right', visual: 'left' };
+
   const body = `
-    <div class="work-row__body">
+    <div class="work-row__body" data-reveal="${dir.body}">
       <p class="work-row__code">${work.code.toUpperCase()}</p>
       <h2 class="work-row__title">${title}</h2>
       ${work.subtitle ? `<p class="work-row__subtitle">${work.subtitle}</p>` : ''}
@@ -27,7 +31,7 @@ function renderRow(work) {
   `;
 
   const visual = `
-    <div class="work-row__visual">
+    <div class="work-row__visual" data-reveal="${dir.visual}" style="--reveal-delay: 100ms">
       ${
         isPrep
           ? '<div class="work-row__blank" aria-hidden="true"></div>'

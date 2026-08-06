@@ -1,0 +1,35 @@
+/**
+ * スクロール連動アニメーション。
+ * .has-reveal は reveal.js が付ける。JSが動かなかった場合は
+ * このクラスが付かないので、中身が隠れたままになることはない。
+ */
+
+.has-reveal [data-reveal] {
+  opacity: 0;
+  transition:
+    opacity 0.7s var(--ease) var(--reveal-delay, 0s),
+    transform 0.7s var(--ease) var(--reveal-delay, 0s);
+}
+
+/* 方向。既定は下から */
+.has-reveal [data-reveal],
+.has-reveal [data-reveal='up'] {
+  transform: translateY(20px);
+}
+
+.has-reveal [data-reveal='left'] {
+  transform: translateX(-28px);
+}
+
+.has-reveal [data-reveal='right'] {
+  transform: translateX(28px);
+}
+
+.has-reveal [data-reveal='scale'] {
+  transform: scale(0.97);
+}
+
+.has-reveal [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}

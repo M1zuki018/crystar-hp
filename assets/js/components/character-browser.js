@@ -24,16 +24,17 @@ export function createCharacterBrowser(root, { characters, groups = [], groupKey
   const list = characters.map((c) => ({ ...c, searchText: searchTextOf(c) }));
   const tabs = groups.length > 1 ? groups : [];
 
+  // 検索 → タブ → アイコン行 → 紹介 の順に、少しずつ遅らせて出す
   root.innerHTML = `
     ${search ? renderSearch() : ''}
     ${tabs.length ? renderTabs(tabs) : ''}
 
-    <ul class="char-roster">
+    <ul class="char-roster" data-reveal style="--reveal-delay: 120ms">
       ${list.map((c) => renderRosterItem(c, groupKey)).join('')}
     </ul>
 
     <p class="char-empty" hidden>該当するキャラクターがいません</p>
-    <div class="char-detail" data-char-detail></div>
+    <div class="char-detail" data-char-detail data-reveal style="--reveal-delay: 220ms"></div>
   `;
 
   bind(root, list);
@@ -42,7 +43,7 @@ export function createCharacterBrowser(root, { characters, groups = [], groupKey
 /* ================= 描画 ================= */
 
 const renderSearch = () => `
-  <div class="char-search">
+  <div class="char-search" data-reveal>
     <input class="char-search__input" type="search" data-char-search
            placeholder="作品名・陣営・キャラクター名で絞り込む"
            aria-label="キャラクターを絞り込む">
@@ -50,17 +51,17 @@ const renderSearch = () => `
 `;
 
 const renderTabs = (groups) => `
-  <ul class="char-tabs">
+  <ul class="char-tabs" data-reveal>
     ${groups
-    .map(
+      .map(
         (group, i) => `
       <li>
         <button class="char-tab${i === 0 ? ' is-active' : ''}" type="button"
                 data-group="${group.id}" aria-pressed="${i === 0}">${group.label}</button>
       </li>
     `
-    )
-    .join('')}
+      )
+      .join('')}
   </ul>
 `;
 
@@ -81,11 +82,11 @@ function renderDetail(c, withStand) {
   return `
     ${
       withStand
-          ? `<div class="char-detail__visual">
+        ? `<div class="char-detail__visual">
              <img src="${c.stand}" alt="${c.name}の立ち絵">
            </div>`
-          : ''
-  }
+        : ''
+    }
 
     <div class="char-detail__info">
       <p class="char-detail__meta">
@@ -113,8 +114,8 @@ function fillDetail(detail, character, withStand) {
   if (!withStand) return;
 
   detail
-      .querySelector('.char-detail__visual img')
-      ?.addEventListener('error', () => fillDetail(detail, character, false), { once: true });
+    .querySelector('.char-detail__visual img')
+    ?.addEventListener('error', () => fillDetail(detail, character, false), { once: true });
 }
 
 function bind(root, list) {
@@ -158,7 +159,7 @@ function bind(root, list) {
 
     // 表示中に選択が残っていればそのまま、消えたら先頭に切り替える
     const stillActive = visible.some((row) =>
-        row.querySelector('.char-roster__item').classList.contains('is-active')
+      row.querySelector('.char-roster__item').classList.contains('is-active')
     );
     if (!stillActive && visible.length) {
       select(visible[0].querySelector('.char-roster__item').dataset.select);
