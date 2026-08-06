@@ -44,6 +44,8 @@
   --kv-ratio: 4 / 3;        /* キービジュアルの縦横比。縦長にするなら 3 / 4 */
   --wrap-w: 1120px;         /* コンテンツの最大幅 */
   --wrap-pad: var(--s-4);   /* 画面端の余白 */
+  --stand-h: clamp(320px, 50svh, 540px);        /* 立ち絵の表示高さ（一覧・紹介） */
+  --stand-h-modal: clamp(360px, 62svh, 660px);  /* 同上（詳細ポップアップ用に少し大きく） */
   --header-h: 68px;
   --worknav-h: 46px;      /* 作品タブ（ヘッダー2段目）の高さ */
   --header-stack-h: var(--header-h);  /* 固定ヘッダー全体の高さ。タブがある時は下で上書き */

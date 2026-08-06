@@ -81,9 +81,9 @@
   color: var(--c-paper);
 }
 
-/* ポップアップは画面内に収める必要があるので、立ち絵は少し低めにする */
+/* ポップアップは見せ場なので、立ち絵を一覧より大きく取る */
 .char-modal__body {
-  --stand-h: clamp(300px, 60vh, 540px);
+  --stand-h: var(--stand-h-modal, clamp(360px, 62svh, 660px));
 
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -96,8 +96,8 @@
   position: relative;
   /* イメージカラーの薄い光を下から当てる */
   background:
-    radial-gradient(80% 60% at 50% 100%, color-mix(in srgb, var(--char-color) 30%, transparent), transparent 70%),
-    var(--c-void);
+          radial-gradient(80% 60% at 50% 92%, color-mix(in srgb, var(--char-color) 30%, transparent), transparent 70%),
+          var(--c-void);
 }
 
 /* セリフは立ち絵に被せる */

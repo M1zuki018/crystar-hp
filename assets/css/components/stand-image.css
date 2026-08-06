@@ -1,11 +1,17 @@
-/* 立ち絵の表示領域（CHARACTERブロックと詳細ポップアップで共用） */
+/**
+ * 立ち絵の表示領域（CHARACTERブロックと詳細ポップアップで共用）。
+ *
+ * 高さは --stand-h で固定し、画像は必ずその高さで表示する。横幅は成り行き。
+ * 枠と画像の両方に同じ変数を指定しているのは、親の高さ計算に依存させないため。
+ * （親が auto に落ちると、画像が原寸のまま横に溢れて左上に張り付く）
+ */
 
 .stand {
   position: relative;
   display: grid;
-  place-items: end center;
+  place-items: center; /* 画像は枠の中央 */
   /* 変数が未定義でも原寸表示に落ちないよう、既定値を持たせておく */
-  height: var(--stand-h, clamp(340px, 52svh, 560px));
+  height: var(--stand-h, clamp(320px, 50svh, 540px));
   overflow: hidden;
 }
 
@@ -21,16 +27,16 @@
   transform: scale(1.2);
 }
 
-/* 立ち絵本体。縦は必ず枠いっぱい、横は成り行き */
+/* 立ち絵本体。縦は枠と同じ高さ、横は成り行き。
+   height を 100% ではなく変数で直接指定しているので、
+   親の高さが取れなかった場合でも大きさが崩れない */
 .stand__img {
   position: relative;
+  height: var(--stand-h, clamp(320px, 50svh, 540px));
   width: auto;
   max-width: none;
-  height: 100%;
-  /* 枠の高さが取れなかった場合の保険 */
-  max-height: 560px;
   object-fit: contain;
-  object-position: bottom center;
+  object-position: center;
 }
 
 /* 横に溢れているときだけ、両端をぼかして切り口を隠す */

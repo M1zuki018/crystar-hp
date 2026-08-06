@@ -1,6 +1,7 @@
 import { openCharacter } from './character-modal.js';
 import { searchTextOf } from '../lib/work-data.js';
 import { thumbHtml } from '../lib/image-fallback.js';
+import { buildStand, initStands } from './stand-image.js';
 
 /**
  * キャラクター一覧の共通部品。
@@ -53,15 +54,15 @@ const renderSearch = () => `
 const renderTabs = (groups) => `
   <ul class="char-tabs" data-reveal>
     ${groups
-      .map(
+    .map(
         (group, i) => `
       <li>
         <button class="char-tab${i === 0 ? ' is-active' : ''}" type="button"
                 data-group="${group.id}" aria-pressed="${i === 0}">${group.label}</button>
       </li>
     `
-      )
-      .join('')}
+    )
+    .join('')}
   </ul>
 `;
 
@@ -82,11 +83,11 @@ function renderDetail(c, withStand) {
   return `
     ${
       withStand
-        ? `<div class="char-detail__visual">
-             <img src="${c.stand}" alt="${c.name}の立ち絵">
+          ? `<div class="char-detail__visual">
+             ${buildStand(c.stand, `${c.name}の立ち絵`)}
            </div>`
-        : ''
-    }
+          : ''
+  }
 
     <div class="char-detail__info">
       <p class="char-detail__meta">
@@ -113,9 +114,11 @@ function fillDetail(detail, character, withStand) {
 
   if (!withStand) return;
 
+  initStands(detail);
+
   detail
-    .querySelector('.char-detail__visual img')
-    ?.addEventListener('error', () => fillDetail(detail, character, false), { once: true });
+      .querySelector('.stand__img')
+      ?.addEventListener('error', () => fillDetail(detail, character, false), { once: true });
 }
 
 function bind(root, list) {
@@ -159,7 +162,7 @@ function bind(root, list) {
 
     // 表示中に選択が残っていればそのまま、消えたら先頭に切り替える
     const stillActive = visible.some((row) =>
-      row.querySelector('.char-roster__item').classList.contains('is-active')
+        row.querySelector('.char-roster__item').classList.contains('is-active')
     );
     if (!stillActive && visible.length) {
       select(visible[0].querySelector('.char-roster__item').dataset.select);
