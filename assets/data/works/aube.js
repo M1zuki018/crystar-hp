@@ -7,7 +7,7 @@
 export default {
   /* ============ STORYブロック ============ */
   story: {
-    visuals: ['story_01', 'story_02', 'story_03'],
+    visuals: [],
 
     text: `2029年3月10日 午前5時47分23秒。
 小惑星「セオ」が地球に衝突し、世界は終わった。
@@ -32,7 +32,7 @@ export default {
 
   /* ============ WORLDブロック ============ */
   world: {
-    visuals: ['world_01', 'world_02'],
+    visuals: [],
 
     text: `【ラセール研究センター】
 天才天文学者カリル・ラセールが設立した独立研究機関。

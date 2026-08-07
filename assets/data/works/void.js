@@ -7,7 +7,7 @@
 export default {
   /* ============ STORYブロック ============ */
   story: {
-    visuals: ['story_01', 'story_02', 'story_03'],
+    visuals: [],
 
     text: `Voidは、あなたを世界へ誘う場所。
 
@@ -21,7 +21,7 @@ export default {
 
   /* ============ WORLDブロック ============ */
   world: {
-    visuals: ['world_01', 'world_02'],
+    visuals: [],
     text: `セイが「何もない空間」から創り出した世界。扉がふっと出現しては消える、不定形の構造を持つ。
 
 ・執務室 —— アンティーク調の重厚な造り。三人が集まる場所
