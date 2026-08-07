@@ -22,7 +22,12 @@
   gap: var(--s-5);
 }
 
-/* 偶数行は左右を入れ替える。DOMの順序は変えず、grid-column だけ入れ替える */
+/* 偶数行は左右を入れ替える。DOMの順序は変えず、grid-column だけ入れ替える。
+   このとき列幅も一緒に反転させないと、ビジュアルが狭い側（5fr）に落ちて小さくなる */
+.work-row:nth-child(even) {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+}
+
 .work-row:nth-child(even) .work-row__body {
   grid-column: 2;
   grid-row: 1;
