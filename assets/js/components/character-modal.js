@@ -88,14 +88,14 @@ function fill(el, character, withStand) {
 
   // 立ち絵が読み込めなかった時点で、立ち絵なしの形に組み直す
   body
-      .querySelector('.stand__img')
-      ?.addEventListener('error', () => fill(el, character, false), { once: true });
+    .querySelector('.stand__img')
+    ?.addEventListener('error', () => fill(el, character, false), { once: true });
 }
 
 function render(c, withStand) {
   // 値が空の項目は行ごと出さない
   const rows = PROFILE_FIELDS.filter(({ key }) => c[key]).map(
-      ({ key, label }) => `
+    ({ key, label }) => `
       <div class="char-spec__row">
         <dt class="char-spec__key">${label}</dt>
         <dd class="char-spec__value">${c[key]}</dd>
@@ -105,15 +105,15 @@ function render(c, withStand) {
 
   // 立ち絵があるときはセリフを絵に被せ、無いときは本文の流れに載せる
   const visual = withStand
-      ? `
+    ? `
     <div class="char-modal__visual">
       ${buildStand(c.stand, `${c.name}の立ち絵`)}
       ${c.quote ? `<p class="char-modal__quote">${c.quote}</p>` : ''}
     </div>`
-      : '';
+    : '';
 
   const quoteInFlow =
-      !withStand && c.quote ? `<p class="char-modal__quote char-modal__quote--flow">${c.quote}</p>` : '';
+    !withStand && c.quote ? `<p class="char-modal__quote char-modal__quote--flow">${c.quote}</p>` : '';
 
   return `
     ${visual}
