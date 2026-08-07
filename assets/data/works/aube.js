@@ -62,37 +62,12 @@ export default {
 
   /* ============ 陣営（CHARACTERブロックのタブ） ============ */
   characterGroups: [
-    { id: 'visitor', label: '来訪者' },
     { id: 'researcher', label: '研究チーム' },
     { id: 'government', label: '政府' },
   ],
 
   /* ============ キャラクター ============ */
   characters: [
-    {
-      id: 'adan',
-      group: 'visitor',
-      color: '#d98a6b',
-
-      name: 'アダン・シャルル',
-      realName: '',
-      alphabet: 'ADAN CHARLES',
-      quote: 'なんで世界を救ってくれなかったんだ！！',
-
-      affiliation: 'なし（元・宇宙工学専攻の大学生）',
-      gender: '男性',
-      age: '',
-      birthday: '',
-      bloodType: '',
-      height: '',
-      weight: '',
-      firstPerson: '俺（研究者たちの前では「僕」）',
-      residence: 'ラセール研究センター',
-
-      intro:
-          'カリル・ラセールに人生を捧げようとして、叶わず堕落した青年。憧れの二人を火災で失って以来、大学を中退し、送られることのない手紙を書き続ける日々を送っていた。独自に「セオ」の軌道を計算し、衝突を予測していた唯一の一般人。2029年3月10日に死に、2025年12月のラセール研究センターで目を覚ます。彼だけが、この世界で「終わり」を知っている。',
-    },
-
     {
       id: 'khalil',
       group: 'researcher',
