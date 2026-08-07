@@ -187,7 +187,7 @@
   position: relative;
   /* イメージカラーの光を足元から当てる */
   background: radial-gradient(
-    70% 55% at 50% 100%,
+    70% 55% at 50% 92%,
     color-mix(in srgb, var(--char-color) 28%, transparent),
     transparent 70%
   );

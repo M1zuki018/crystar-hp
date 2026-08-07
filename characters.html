@@ -14,36 +14,44 @@
 
 <body data-page="characters" data-script="characters">
 
-  <a class="skip-link" href="#main">本文へスキップ</a>
+<a class="skip-link" href="#main">本文へスキップ</a>
 
-  <page-bg data-src="Resources/common/characters/characters_bg.png"></page-bg>
+<page-bg data-src="Resources/common/characters/characters_bg.png"></page-bg>
 
-  <site-header></site-header>
+<site-header></site-header>
 
-  <main class="page" id="main">
+<main class="page" id="main">
 
-    <header class="page-head wrap">
-      <p class="eyebrow">Characters</p>
-      <h1 class="page-head__title">
-        キャラクター
-        <span class="page-head__ja">Characters</span>
-      </h1>
-      <p class="page-head__lead">
-        全作品の登場人物を横断して探せます。
-      </p>
-    </header>
+  <header class="page-head wrap">
+    <p class="eyebrow">Characters</p>
+    <h1 class="page-head__title">
+      キャラクター
+      <span class="page-head__ja">Characters</span>
+    </h1>
+    <p class="page-head__lead">
+      全作品の登場人物を横断して探せます。誕生日から辿ることもできます。
+    </p>
+  </header>
 
-    <!-- 一覧は全作品のデータから自動生成される -->
-    <div class="blur-panel">
-      <div class="wrap char-page">
-        <div class="char-block" data-char-browser></div>
+  <!-- 一覧は全作品のデータから自動生成される -->
+  <div class="blur-panel">
+    <div class="wrap char-page">
+      <div class="char-block" data-char-browser></div>
+
+      <!-- 誕生日カレンダー（ポップアップで開く） -->
+      <div class="bd-open-wrap">
+        <button class="bd-open" type="button" data-birthday-open>
+          <span class="bd-open__en">Birthday Almanac</span>
+          <span class="bd-open__ja">誕生日暦をひらく</span>
+        </button>
       </div>
     </div>
+  </div>
 
-  </main>
+</main>
 
-  <site-footer></site-footer>
+<site-footer></site-footer>
 
-  <script type="module" src="assets/js/main.js"></script>
+<script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

@@ -96,8 +96,8 @@
   position: relative;
   /* イメージカラーの薄い光を下から当てる */
   background:
-          radial-gradient(80% 60% at 50% 92%, color-mix(in srgb, var(--char-color) 30%, transparent), transparent 70%),
-          var(--c-void);
+    radial-gradient(80% 60% at 50% 92%, color-mix(in srgb, var(--char-color) 30%, transparent), transparent 70%),
+    var(--c-void);
 }
 
 /* セリフは立ち絵に被せる */

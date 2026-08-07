@@ -1,0 +1,513 @@
+/**
+ * 誕生日暦。
+ * 左に月の暦、右にその日の1枚。右側を主役にして、暦は静かに支える役に回す。
+ */
+
+.bd {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: var(--s-6);
+  align-items: start;
+}
+
+/* ================================================
+   左：暦
+   ================================================ */
+.bd-head__en {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--c-crys);
+}
+
+.bd-head__row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  margin-top: var(--s-1);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.bd-head__step {
+  font-family: var(--f-mono);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--c-mute);
+  transition: color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.bd-head__step:hover {
+  color: var(--c-crys);
+}
+
+.bd-head__month {
+  font-family: var(--f-display);
+  line-height: 1;
+}
+
+.bd-head__num {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.bd-head__unit {
+  margin-left: 0.15em;
+  font-size: 1rem;
+  color: var(--c-mute);
+}
+
+.bd-head__count {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.18em;
+  color: var(--c-mute);
+}
+
+/* ---- 曜日と日付 ---- */
+.bd-week,
+.bd-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.bd-week {
+  margin-block: var(--s-3) var(--s-2);
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.12em;
+  text-align: center;
+  color: var(--c-mute);
+}
+
+/* 週末だけ色を添える */
+.bd-week li:first-child {
+  color: color-mix(in srgb, #e08a8a 65%, var(--c-mute));
+}
+
+.bd-week li:last-child {
+  color: color-mix(in srgb, var(--c-halo) 65%, var(--c-mute));
+}
+
+.bd-grid {
+  gap: 1px;
+  background-color: color-mix(in srgb, var(--c-line) 45%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c-line) 45%, transparent);
+}
+
+.bd-cell {
+  background-color: var(--c-ink);
+}
+
+.bd-cell--blank {
+  background-color: rgb(12 17 34 / 0.4);
+}
+
+/* ---- 日付のマス ---- */
+.bd-day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  aspect-ratio: 1;
+  transition: background-color 0.25s var(--ease);
+}
+
+.bd-day__num {
+  font-family: var(--f-mono);
+  font-size: var(--t-small);
+  line-height: 1;
+  color: var(--c-mute);
+  transition: color 0.25s var(--ease);
+}
+
+.bd-day:hover {
+  background-color: rgb(20 26 49 / 0.7);
+}
+
+.bd-day:hover .bd-day__num {
+  color: var(--c-paper);
+}
+
+/* 誕生日の印。イメージカラーで小さく灯す */
+.bd-day__mark {
+  width: 6px;
+  height: 6px;
+  background: var(--char-color);
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--char-color) 70%, transparent);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.bd-day.has-birthday .bd-day__num {
+  color: var(--c-paper);
+}
+
+.bd-day.has-birthday:hover .bd-day__mark {
+  transform: rotate(45deg) scale(1.35);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--char-color) 85%, transparent);
+}
+
+/* 今日：数字だけを琥珀で灯す */
+.bd-day.is-today .bd-day__num {
+  color: var(--c-sign);
+}
+
+.bd-day.is-today::after {
+  content: '';
+  position: absolute;
+  inset: auto auto 6px 50%;
+  width: 14px;
+  height: 1px;
+  background: var(--c-sign);
+  transform: translateX(-50%);
+}
+
+/* 選択中 */
+.bd-day.is-selected {
+  background-color: color-mix(in srgb, var(--c-crys) 14%, var(--c-ink-2));
+}
+
+.bd-day.is-selected .bd-day__num {
+  color: var(--c-paper);
+}
+
+/* ---- 次の誕生日 ---- */
+.bd-upcoming {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-3);
+  margin-top: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--c-line);
+  font-size: var(--t-small);
+}
+
+.bd-upcoming__label {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-crys);
+}
+
+.bd-upcoming__names {
+  color: var(--c-mute);
+}
+
+.bd-upcoming__remain {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.12em;
+  color: var(--c-mute);
+}
+
+/* ================================================
+   右：その日の1枚
+   絵を主役にして、文字は上下の暗がりに沈める
+   ================================================ */
+.bd-stage {
+  --stand-h: clamp(360px, 58svh, 620px);
+
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid var(--c-line);
+  background:
+          radial-gradient(
+                  75% 55% at 50% 100%,
+                  color-mix(in srgb, var(--char-color) 28%, transparent),
+                  transparent 72%
+          ),
+          var(--c-void);
+}
+
+.bd-stage__art {
+  display: grid;
+  place-items: center;
+  min-height: var(--stand-h);
+}
+
+.bd-stage__fallback {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+}
+
+/* 文字を載せる層。絵の上下だけを暗く落として読ませる */
+.bd-stage__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--s-4);
+  pointer-events: none;
+  background: linear-gradient(
+          180deg,
+          rgb(5 7 15 / 0.72) 0%,
+          rgb(5 7 15 / 0.12) 26%,
+          rgb(5 7 15 / 0.12) 46%,
+          rgb(5 7 15 / 0.9) 100%
+  );
+}
+
+/* ---- 上：日付 ---- */
+.bd-stage__kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--char-color) 55%, var(--c-paper));
+}
+
+.bd-stage__today {
+  padding: 0.2em 0.6em;
+  letter-spacing: 0.2em;
+  color: var(--c-void);
+  background-color: var(--c-sign);
+}
+
+.bd-stage__date {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  margin-top: var(--s-1);
+}
+
+.bd-stage__day {
+  font-family: var(--f-display);
+  font-size: clamp(2.75rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 24px rgb(5 7 15 / 0.8);
+}
+
+.bd-stage__month {
+  font-family: var(--f-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.bd-stage__dow {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.16em;
+  color: var(--c-mute);
+}
+
+/* ---- 下：キャラクター ---- */
+.bd-stage__caption {
+  pointer-events: auto;
+}
+
+.bd-stage__swaps {
+  display: flex;
+  gap: var(--s-2);
+  margin-bottom: var(--s-3);
+}
+
+.bd-stage__swap .char-thumb {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--c-line);
+  opacity: 0.5;
+  transition: opacity 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.bd-stage__swap:hover .char-thumb {
+  opacity: 0.85;
+}
+
+.bd-stage__swap.is-active .char-thumb {
+  opacity: 1;
+  border-color: var(--char-color);
+}
+
+.bd-stage__meta {
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.18em;
+  color: var(--c-mute);
+}
+
+.bd-stage__alphabet {
+  margin-top: var(--s-2);
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.28em;
+  color: color-mix(in srgb, var(--char-color) 55%, var(--c-paper));
+}
+
+.bd-stage__name {
+  margin-top: var(--s-1);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 20px rgb(5 7 15 / 0.8);
+}
+
+.bd-stage__note {
+  margin-top: var(--s-1);
+  font-size: var(--t-small);
+  letter-spacing: 0.1em;
+  color: var(--c-mute);
+}
+
+.bd-stage .more-button {
+  margin-top: var(--s-3);
+}
+
+/* ================================================
+   開くためのボタン（キャラクター紹介の下）
+   ================================================ */
+.bd-open-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-line);
+}
+
+.bd-open {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-4) var(--s-7);
+  background-color: rgb(12 17 34 / 0.6);
+  border: 1px solid var(--c-line);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease),
+  transform 0.3s var(--ease);
+}
+
+/* ホバーで上端に結晶色の線が中央から伸びる（作品ページのボタンと同じ挙動） */
+.bd-open::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--c-crys), transparent);
+  transform: translateX(-50%);
+  transition: width 0.45s var(--ease);
+}
+
+.bd-open:hover::before {
+  width: 100%;
+}
+
+.bd-open__en {
+  font-family: var(--f-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.bd-open__ja {
+  font-size: var(--t-label);
+  letter-spacing: 0.24em;
+  color: var(--c-mute);
+  transition: color 0.3s var(--ease);
+}
+
+.bd-open:hover {
+  border-color: rgb(198 166 234 / 0.6);
+  background-color: rgb(20 26 49 / 0.8);
+  transform: translateY(-2px);
+}
+
+.bd-open:hover .bd-open__ja {
+  color: var(--c-paper);
+}
+
+/* ================================================
+   ポップアップの器
+   ================================================ */
+.bd-modal {
+  width: min(94vw, 1180px);
+  max-width: none;
+  max-height: 92vh;
+  padding: 0;
+  overflow: hidden;
+  color: var(--c-paper);
+  background-color: var(--c-ink);
+  border: 1px solid var(--c-line);
+  box-shadow: 0 0 100px rgb(198 166 234 / 0.14);
+}
+
+.bd-modal[open] {
+  animation: modal-in 0.32s var(--ease);
+}
+
+/* 閉じる動き。[open] と詳細度が同じなので、後ろに書いて上書きしている */
+.bd-modal.is-closing {
+  animation: modal-out 0.22s var(--ease) both;
+}
+
+.bd-modal::backdrop {
+  background-color: rgb(5 7 15 / 0.88);
+  backdrop-filter: blur(8px);
+}
+
+.bd-modal[open]::backdrop {
+  animation: backdrop-in 0.32s var(--ease);
+}
+
+.bd-modal.is-closing::backdrop {
+  animation: backdrop-out 0.22s var(--ease) both;
+}
+
+.bd-modal__close {
+  position: absolute;
+  top: var(--s-2);
+  right: var(--s-3);
+  z-index: 3;
+  font-family: var(--f-mono);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--c-mute);
+  transition: color 0.2s var(--ease);
+}
+
+.bd-modal__close:hover {
+  color: var(--c-paper);
+}
+
+.bd-modal__body {
+  max-height: 92vh;
+  padding: var(--s-5);
+  overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .bd {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+  }
+
+  /* 狭い画面では絵を先に見せる */
+  .bd__stage {
+    order: -1;
+  }
+
+  .bd-stage {
+    --stand-h: clamp(300px, 46svh, 440px);
+  }
+}

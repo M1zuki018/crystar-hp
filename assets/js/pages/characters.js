@@ -2,14 +2,16 @@ import { WORKS } from '../../data/works.config.js';
 import { loadAllCharacters } from '../lib/work-data.js';
 import { registerCharacters } from '../components/character-modal.js';
 import { createCharacterBrowser } from '../components/character-browser.js';
+import { openBirthdayCalendar } from '../components/birthday-calendar.js';
 
 /**
  * キャラクターページ。
  * 全作品のキャラクターを1つにまとめ、作品タブと検索バーで絞り込む。
- * 部品は作品ページのCHARACTERブロックと共通。
+ * 誕生日カレンダーは紹介の下のボタンから、ポップアップで開く。
  */
 
 const mount = document.querySelector('[data-char-browser]');
+const birthdayButton = document.querySelector('[data-birthday-open]');
 
 if (mount) init();
 
@@ -32,4 +34,6 @@ async function init() {
     groupKey: 'workCode',
     search: true,
   });
+
+  birthdayButton?.addEventListener('click', () => openBirthdayCalendar(characters));
 }
